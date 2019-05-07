@@ -27,6 +27,7 @@ public class ZeldaRunner {
 	Timer timer;
 	Timer attack;
 	Timer enemy;
+	// TODO: someone needs to figure out this new object!
     //Environment envo = new Environment(link);
 	boolean soundOn=false;
 	boolean alive=true;
