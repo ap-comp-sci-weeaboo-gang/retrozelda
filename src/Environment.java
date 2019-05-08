@@ -187,9 +187,9 @@ public class Environment {
     public void draw(Graphics g) {
 
         // width 800, height 600
-
+            mappy(g);
             g.drawImage(getImage().get(mapDecider), 0, 0, 800, 600, null);
-        mappy(g);
+        
 
             //boundary(g);
            // loadArray();
