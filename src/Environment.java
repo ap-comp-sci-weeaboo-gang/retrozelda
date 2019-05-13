@@ -61,7 +61,7 @@ public class Environment {
             if((p.getRect().x > 158 && p.getRect().x < 215)  && (p.getRect().y > 40 && p.getRect().y < 87)) {
 
                 mapDecider++;
-                p.getRect().setLocation(380,470);
+                p.getRect().setLocation(380,490);
             }
             if((p.getRect().x > 740) && (p.getRect().y > 260 && p.getRect().y < 310)) {
 
@@ -114,7 +114,7 @@ public class Environment {
                         blue = colors[j][i].getBlue();
                         g.drawRect(j,i,diam,skip);
 
-                        if (whichColor(red,green,blue)) {
+                        if (whichColor(red,green,blue,g)) {
                             onGreen = true;
                             break;
 
@@ -139,7 +139,7 @@ public class Environment {
                         blue = colors[j][i].getBlue();
                         g.drawRect(j,i,diam,skip);
 
-                        if (whichColor(red,green,blue)) {
+                        if (whichColor(red,green,blue,g)) {
                             onGreen = true;
                             break;
 
@@ -165,7 +165,7 @@ public class Environment {
                         green = colors[j][i].getGreen();
                         blue = colors[j][i].getBlue();
                         g.drawRect(j,i,diam,skip);
-                        if (whichColor(red,green,blue)) {
+                        if (whichColor(red,green,blue,g)) {
 
                             onGreen = true;
                             break;
@@ -190,7 +190,7 @@ public class Environment {
                         green = colors[j][i].getGreen();
                         blue = colors[j][i].getBlue();
                         g.drawRect(j,i,diam,skip);
-                        if (whichColor(red,green,blue)) {
+                        if (whichColor(red,green,blue,g)) {
 
                             onGreen = true;
                             break;
@@ -208,19 +208,20 @@ public class Environment {
     }
 
 
-    private boolean whichColor( int r, int g, int b) {
-        boolean onColor = false;
+    private boolean whichColor( int r, int g, int b, Graphics gt) {
+        boolean onBoundary = false;
         if(mapDecider == 0 || mapDecider == 2) {
             if (g > 80 && r + b < g) {
-                onColor = true;
+                onBoundary = true;
             }
         }
-        if(mapDecider == 1) {
-            if( (r!= 1 && b!= 1) && (p.getRect().y > 530) && (p.getRect().x > 360 && p.getRect().x < 443 ) ) {
-                onColor = true;
+        if(mapDecider == 1 ) {
+
+            if( (r!= 1 && b!= 1) && !(p.getRect().y > 530 && p.getRect().y < 599) && !(p.getRect().x > 360 && p.getRect().x < 443 ) ) {
+                onBoundary = true;
             }
         }
-        return onColor;
+        return onBoundary;
     }
 
     public void draw(Graphics g) {
