@@ -216,7 +216,7 @@ public class Environment {
             }
         }
         if(mapDecider == 1) {
-            if( r!= 1 && b!= 1 ) {
+            if( (r!= 1 && b!= 1) && (p.getRect().y > 530) && (p.getRect().x > 360 && p.getRect().x < 443 ) ) {
                 onColor = true;
             }
         }
