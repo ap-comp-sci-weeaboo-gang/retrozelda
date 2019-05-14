@@ -210,19 +210,25 @@ public class Environment {
 
     private boolean whichColor( int r, int g, int b, Graphics gt) {
         boolean onBoundary = false;
-        if(mapDecider == 0 || mapDecider == 2) {
+        if(mapDecider == 0 ) {
             if (g > 80 && r + b < g) {
                 onBoundary = true;
             }
         }
         if(mapDecider == 1 ) {
 
-            if( (r!= 1 && b!= 1) && !(p.getRect().y > 530 && p.getRect().y < 599) && !(p.getRect().x > 360 && p.getRect().x < 443 ) ) {
+            if( (r!= 1 && b!= 1) && !(p.getRect().y > 500 && p.getRect().y < 599) && !(p.getRect().x > 330 && p.getRect().x < 443 ) ) {
+                onBoundary = true;
+            }
+        }
+        if(mapDecider == 2) {
+            if(g < 100 && b < 100 && r < 100) {
                 onBoundary = true;
             }
         }
         return onBoundary;
     }
+
 
     public void draw(Graphics g) {
 
@@ -238,5 +244,4 @@ public class Environment {
 
 
 }
-
 
