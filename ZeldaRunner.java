@@ -103,8 +103,8 @@ public class ZeldaRunner {
 
 	protected void enemyMove() {
 		time++;
-		for (int i = 0; i < enemies.get(envo.mapDecider()).size(); i ++) {
-			((Character) enemies.get(envo.mapDecider()).get(i)).movePattern(link);
+		for (int i = 0; i < enemies.get(envo.getMapDecider()).size(); i ++) {
+			((Character) enemies.get(envo.getMapDecider()).get(i)).movePattern(link);
 		}
 		
 	}
@@ -200,10 +200,10 @@ public class ZeldaRunner {
 	}
 	
 	private void attackCheck() {
-		for(int i = 0; i < enemies.get(envo.mapDecider()).size(); i++) {
-			if (link.getSwordRect().intersects(((Character) enemies.get(envo.mapDecider()).get(i)).getRect()) && link.getSpace() == true) {
-				((Character) enemies.get(envo.mapDecider()).get(i)).setDead(false);
-				enemies.get(envo.mapDecider()).remove(i);
+		for(int i = 0; i < enemies.get(envo.getMapDecider()).size(); i++) {
+			if (link.getSwordRect().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect()) && link.getSpace() == true) {
+				((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+				enemies.get(envo.getMapDecider()).remove(i);
 			}
 		}
 	}
@@ -211,8 +211,8 @@ public class ZeldaRunner {
 	protected void drawAll(Graphics g) {
 		envo.draw(g);
 		link.draw(g);
-		for (int i = 0; i < enemies.get(envo.mapDecider()).size(); i ++) {
-			((Character) enemies.get(envo.mapDecider()).get(i)).draw(g);
+		for (int i = 0; i < enemies.get(envo.getMapDecider()).size(); i ++) {
+			((Character) enemies.get(envo.getMapDecider()).get(i)).draw(g);
 		}
 	}
 	public static Clip get(String filename){
