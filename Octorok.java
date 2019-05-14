@@ -85,22 +85,22 @@ public class Octorok extends Character  {
 	
 	@Override 
 	public void movePattern(Player p) {
-		if (p.getRect().getX() > this.getRect().getX()) {
+		if (p.getRect().getX() > this.getRect().getX()+5) {
 			if (count%2 == 0) {
 				keyHit("right");
 			}
 		}
-		else if (p.getRect().getX() < this.getRect().getX()) {
+		else if (p.getRect().getX() < this.getRect().getX()-5) {
 			if (count%2 == 0) {
 				keyHit("left");
 			}
 		}
-		else if (p.getRect().getY() > this.getRect().getY()) {
+		else if (p.getRect().getY() > this.getRect().getY()+5) {
 			if (count%2 == 0) {
 				keyHit("down");
 			}
 		}
-		else if (p.getRect().getY() < this.getRect().getY()) {
+		else if (p.getRect().getY() < this.getRect().getY()-5) {
 			if (count%2 == 0) {
 				keyHit("up");
 			}
