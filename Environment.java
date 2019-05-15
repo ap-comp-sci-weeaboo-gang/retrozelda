@@ -44,6 +44,10 @@ public class Environment {
             // I need to use screen Caputre somehow
             t.add( ImageIO.read(new File("Envo2.png")));
             t.add( ImageIO.read(new File("Envo3.png")));
+            t.add( ImageIO.read(new File("Envo4.png")));
+            t.add(ImageIO.read(new File("Envo5.png")));
+            t.add(ImageIO.read(new File("Envo6.png")));
+            t.add(ImageIO.read(new File("Envo7.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,12 +65,12 @@ public class Environment {
             if((p.getRect().x > 158 && p.getRect().x < 215)  && (p.getRect().y > 40 && p.getRect().y < 87)) {
 
                 mapDecider++;
-                p.getRect().setLocation(380,490);
+                p.getRect().setLocation(377,490);
             }
-            if((p.getRect().x > 740) && (p.getRect().y > 260 && p.getRect().y < 310)) {
+            if((p.getRect().x > 730) && (p.getRect().y > 260 && p.getRect().y < 310)) {
 
                 mapDecider+=2;
-                p.getRect().setLocation(50,292);
+                p.getRect().setLocation(20,p.getRect().y);
             }
             }
             if(mapDecider == 1) {
@@ -74,19 +78,58 @@ public class Environment {
                 if ((p.getRect().x > 336 && p.getRect().x < 470) && (p.getRect().y > 510)) {
 
                     mapDecider--;
-                    p.getRect().setLocation(186, 115);
+                    p.getRect().setLocation(179, 115);
                 }
             }
             if (mapDecider == 2) {
-                if((p.getRect().x == 20) && (p.getRect().y > 262 && p.getRect().y <  310 )) {
+                if((p.getRect().x < 20) && (p.getRect().y > 262 && p.getRect().y <  310 )) {
                     mapDecider-=2;
-                    p.getRect().setLocation(720,280);
-
+                    p.getRect().setLocation(720,p.getRect().y);
+                }
+                if(p.getRect().x > 745 && (p.getRect().y > 120 && p.getRect().y < 490)) {
+                    mapDecider++;
+                    p.getRect().setLocation(20,p.getRect().y);
                 }
             }
+            if(mapDecider == 3) {
+                if(p.getRect().x < 20 && (p.getRect().y > 139 && p.getRect().y < 490)) {
+                    mapDecider--;
+                    p.getRect().setLocation(740,p.getRect().y);
+                }
 
+
+                if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
+                    mapDecider++;
+                    p.getRect().setLocation(20,p.getRect().y);
+                }
+            }
+            if(mapDecider == 4) {
+                if(p.getRect(). x < 20 && (p.getRect().y > 200 && p.getRect(). y < 400 )) {
+                    mapDecider--;
+                    p.getRect().setLocation(740,p.getRect().y);
+                }
+                if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
+                    mapDecider++;
+                    p.getRect().setLocation(20,p.getRect().y);
+                }
+            }
+            if(mapDecider == 5) {
+                if( p.getRect().x < 20 && (p.getRect().y >200 && p.getRect().y < 400)) {
+                    mapDecider--;
+                    p.getRect().setLocation(740,p.getRect().y);
+                }
+                if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
+                    mapDecider++;
+                    p.getRect().setLocation(20,p.getRect().y);
+                }
+            }
+            if(mapDecider == 6) {
+                if( p.getRect().x < 20 && (p.getRect().y >200 && p.getRect().y < 400)) {
+                    mapDecider--;
+                    p.getRect().setLocation(740,p.getRect().y);
+                }
+            }
     }
-
     private void boundary(Graphics g) {
 
         g.setColor(Color.BLUE);
@@ -183,7 +226,6 @@ public class Environment {
 
 
             if( playerLoc.x > diam && playerLoc.y > skip) {
-                System.out.println("left");
                 for (int i = playerLoc.y+skip*2 ; i < playerLoc.y+skip*3; i++) {
                     for (int j = playerLoc.x+6; j < playerLoc.x + 20; j++) {
                         red = colors[j][i].getRed();
@@ -217,12 +259,12 @@ public class Environment {
         }
         if(mapDecider == 1 ) {
 
-            if( (r!= 1 && b!= 1) && !(p.getRect().y > 500 && p.getRect().y < 599) && !(p.getRect().x > 330 && p.getRect().x < 443 ) ) {
+            if( (r> 1 && b> 1) && !(p.getRect().y > 500 && p.getRect().y < 599) && !(p.getRect().x > 330 && p.getRect().x < 443 ) ) {
                 onBoundary = true;
             }
         }
-        if(mapDecider == 2) {
-            if(g < 100 && b < 100 && r < 100) {
+        if(mapDecider == 2 || mapDecider == 3 || mapDecider == 4 || mapDecider == 5 || mapDecider == 6) {
+            if(g < 100 || b < 100 || r < 100) {
                 onBoundary = true;
             }
         }
@@ -233,6 +275,7 @@ public class Environment {
     public void draw(Graphics g) {
 
         // width 800, height 600
+
         mappy(g);
             g.drawImage(getImage().get(mapDecider), 0, 0, 800, 600, null);
 
@@ -240,11 +283,9 @@ public class Environment {
             //boundary(g);
            // loadArray();
     }
-    
-    public int getMapDecider() {
-    	return this.mapDecider;
-    }
 
 
 
 }
+
+
