@@ -12,13 +12,14 @@ public class Tektite extends Character {
 	private String direction = "down";
 	private boolean moving = false;
 	private int goalX, goalY;
-	double g = 9.8;
-	double angle;
-	double v;
-	int t = 0;
+	int t;
+	int startX; 
+	int startY; 
+	int clicks;
 
-	public Tektite() {
-		super(null, null, getImage(240,180,20,20), null, null, null, getImage(240,210,20,20), null,600, 300, 50, 50);
+	public Tektite(int x, int y, int start) {
+		super(null, null, getImage(240,180,20,20), null, null, null, getImage(240,210,20,20), null,x, y, 50, 50);
+		t = start;
 	}
 	
 	private static Image getImage(int x, int y, int w, int h) {
@@ -39,41 +40,94 @@ public class Tektite extends Character {
 	}
 	
 	public void keyHit(int x, int y) {
-		//angle = Math.abs(Math.atan2(this.getRect().getY(), this.getRect().getX()));
-		//v = (Math.sqrt((this.getRect().getY()*this.getRect().getY())+(this.getRect().getX()*this.getRect().getX())))/10;
-		//this.getRect().setLocation((int)(v*Math.cos(angle)*t+this.getRect().getX()),
-		//		(int)(g/2*(t*t)-Math.sin(angle)*v*t+this.getRect().getY()));
-		if ((this.getRect().getX()+x > 0 && this.getRect().getX()+x < 1100-getRect().getWidth()) && 
-				(this.getRect().getY()+y > 0 && this.getRect().getY()+y < 600-getRect().getHeight())) {
-			//this.getRect().setLocation(x, y);
+		if ((this.getRect().getX()+x >= 1 && this.getRect().getX()+x <= 799-getRect().getWidth()) && 
+				(this.getRect().getY()+y >= 1 && this.getRect().getY()+y <= 599  -getRect().getHeight())) {
 			this.getRect().translate(x, y);
+		}
+		else if (this.getRect().getX()+x >= 1 && this.getRect().getX()+x <= 799-getRect().getWidth()) {
+			this.getRect().translate(x, 0);
+		}
+		else if (this.getRect().getY()+y >= 1 && this.getRect().getY()+y <= 599  -getRect().getHeight()) {
+			this.getRect().translate(0, y);
+		}
+		else {
+			moving = false;
 		}
 	}
 	
 	@Override
 	public void movePattern(Player p) {
 		if (moving == false) { 
-			t=0;
-			int choice1 = (int)(Math.random()*2);
-			int choice2 = (int)(Math.random()*2);
-			goalX = (int) ((Math.random()*200));
-			goalY = (int)(Math.random()*150);
-			if (choice1 == 0)
-				goalX = (int) (this.getRect().getX() - goalX);
-			if (choice2 == 0)
-				goalY = (int) (this.getRect().getY() - goalY);
-			moving = true;
+			if (clicks > 10) {
+				startX = (int) this.getRect().getX();
+				startY = (int) this.getRect().getY();
+				goalX = (int)(Math.random()*150);
+				goalY = (int)(Math.random()*100);
+				if (t == 0) {
+				}
+				else if (t == 1) {
+					goalX = goalX * -1;
+					goalY = goalY* -1;
+				}
+				else if (t == 2) {
+					goalY = goalY* -1;
+				}
+				else if (t == 3) {
+					goalX = goalX * -1;
+				}
+				moving = true;
+			}
+			clicks++;
 		}
-		if (moving == true) {
-			if ((this.getRect().getX() == goalX+(goalX/15) || this.getRect().getX() == goalX-(goalX/15))
-					&& (this.getRect().getY() == goalY+(goalY/10) || this.getRect().getY() == goalY-(goalX/10))) {	
-				moving = false;
+		else if (moving == true) {
+			if (t == 0) {
+				if (this.getRect().getX() >= startX+goalX || this.getRect().getY() >= startY +goalY) {	
+					moving = false;
+					t++;
+					//System.out.println("stopped");
+				}
+				else {
+					keyHit(goalX/6+1, goalY/4+1);
+				}
 			}
-			else {
-				keyHit(goalX/15, goalY/10);
-				t++;
+			else if (t == 1) {
+				if (this.getRect().getX() <= startX+goalX || this.getRect().getY() <= startY +goalY) {	
+					moving = false;
+					t++;
+					//System.out.println("stopped");
+				}
+				else {
+					keyHit(goalX/6+1, goalY/4+1);
+				}
 			}
+			else if (t == 2) {
+				if (this.getRect().getX() >= startX+goalX || this.getRect().getY() <= startY +goalY) {	
+					moving = false;
+					t++;
+					//System.out.println("stopped");
+				}
+				else {
+					keyHit(goalX/6+1, goalY/4+1);
+				}
+			}
+			else if (t == 3) {
+				if (this.getRect().getX() <= startX+goalX || this.getRect().getY() >= startY +goalY) {	
+					moving = false;
+					t++;
+					//System.out.println("stopped");
+				}
+				else {
+					keyHit(goalX/6+1, goalY/4+1);
+				}
+			}
+			clicks = 0;
+		}
+		if (t > 3) {
+			t = 0;
 		}
 	}
 	
+	public boolean getMoving() {
+		return this.moving;
+	}
 }
