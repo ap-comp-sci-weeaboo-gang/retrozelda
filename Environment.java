@@ -51,7 +51,7 @@ public class Environmenttwo {
                 im = ImageIO.read(new File("Envo6.png"));
             }
             if(mapDecider == 6) {
-                im = ImageIO.read(new File("Envo2.png"));
+                im = ImageIO.read(new File("Envo7.png"));
             }
 
         } catch (IOException e) {
