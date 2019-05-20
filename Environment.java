@@ -289,7 +289,10 @@ public class Environmenttwo {
         //boundary(g);
         // loadArray();
     }
-
+    
+ public int getMapDecider() {
+        return this.mapDecider;
+    }
 
 
 }
