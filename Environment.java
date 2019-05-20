@@ -3,19 +3,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Environment {
+public class Environmenttwo {
 
     private int mapDecider;
+    private BufferedImage im;
     // I have to remember that I may not be able to start from the first map
     private Player p;
     private  Robot r;
     private Color[][] colors;
 
 
-    public Environment(Player d) {
+    public Environmenttwo(Player d) {
         p = d;
         try {
             r = new Robot();
@@ -23,38 +22,45 @@ public class Environment {
             e.printStackTrace();
         }
         p.getRect().setLocation(350,420);
-        colors = new Color[getImage().get(mapDecider).getWidth()][getImage().get(mapDecider).getHeight()];
+        colors = new Color[getImage().getWidth()][getImage().getHeight()];
 
 
     } // I might need to switch this code once I get a Player
 
 
 
-    private  List<BufferedImage> getImage() {
-        List<BufferedImage> t = new ArrayList<>();
+    private  BufferedImage getImage() {
 
         try {
-            BufferedImage image = ImageIO.read(new File(("Envo1new.png")));
-            // Add rest of needed images here
-          //  int widthSize = Toolkit.getDefaultToolkit().getScreenSize().width/2;
-            //int heightSize = Toolkit.getDefaultToolkit().getScreenSize().height/2;
+            if(mapDecider == 0) {
+                im = ImageIO.read(new File("Envo1new.png"));
+            }
+            if(mapDecider == 1) {
+                im = ImageIO.read(new File("Envo2.png"));
+            }
+            if(mapDecider == 2) {
+                im = ImageIO.read(new File("Envo3.png"));
+            }
+            if(mapDecider == 3) {
+                im = ImageIO.read(new File("Envo4.png"));
+            }
+            if(mapDecider == 4) {
+                im = ImageIO.read(new File("Envo5.png"));
+            }
+            if(mapDecider == 5) {
+                im = ImageIO.read(new File("Envo6.png"));
+            }
+            if(mapDecider == 6) {
+                im = ImageIO.read(new File("Envo2.png"));
+            }
 
-            t.add( image);
-          //  t.add(r.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getImage("C:/Downloads/Envo1.png").getWidth(null),Toolkit.getDefaultToolkit().getImage("C:/Downloads/Envo1.png").getHeight(null))));
-            // I need to use screen Caputre somehow
-            t.add( ImageIO.read(new File("Envo2.png")));
-            t.add( ImageIO.read(new File("Envo3.png")));
-            t.add( ImageIO.read(new File("Envo4.png")));
-            t.add(ImageIO.read(new File("Envo5.png")));
-            t.add(ImageIO.read(new File("Envo6.png")));
-            t.add(ImageIO.read(new File("Envo7.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
 
-        return t;
+        return im;
     }
 
 
@@ -72,63 +78,63 @@ public class Environment {
                 mapDecider+=2;
                 p.getRect().setLocation(20,p.getRect().y);
             }
-            }
-            if(mapDecider == 1) {
+        }
+        if(mapDecider == 1) {
 
-                if ((p.getRect().x > 336 && p.getRect().x < 470) && (p.getRect().y > 510)) {
+            if ((p.getRect().x > 336 && p.getRect().x < 470) && (p.getRect().y > 510)) {
 
-                    mapDecider--;
-                    p.getRect().setLocation(179, 115);
-                }
+                mapDecider--;
+                p.getRect().setLocation(179, 115);
             }
-            if (mapDecider == 2) {
-                if((p.getRect().x < 20) && (p.getRect().y > 262 && p.getRect().y <  310 )) {
-                    mapDecider-=2;
-                    p.getRect().setLocation(720,p.getRect().y);
-                }
-                if(p.getRect().x > 745 && (p.getRect().y > 120 && p.getRect().y < 490)) {
-                    mapDecider++;
-                    p.getRect().setLocation(20,p.getRect().y);
-                }
+        }
+        if (mapDecider == 2) {
+            if((p.getRect().x < 20) && (p.getRect().y > 262 && p.getRect().y <  310 )) {
+                mapDecider-=2;
+                p.getRect().setLocation(720,p.getRect().y);
             }
-            if(mapDecider == 3) {
-                if(p.getRect().x < 20 && (p.getRect().y > 139 && p.getRect().y < 490)) {
-                    mapDecider--;
-                    p.getRect().setLocation(740,p.getRect().y);
-                }
+            if(p.getRect().x > 745 && (p.getRect().y > 120 && p.getRect().y < 490)) {
+                mapDecider++;
+                p.getRect().setLocation(20,p.getRect().y);
+            }
+        }
+        if(mapDecider == 3) {
+            if(p.getRect().x < 20 && (p.getRect().y > 139 && p.getRect().y < 490)) {
+                mapDecider--;
+                p.getRect().setLocation(740,p.getRect().y);
+            }
 
 
-                if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
-                    mapDecider++;
-                    p.getRect().setLocation(20,p.getRect().y);
-                }
+            if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
+                mapDecider++;
+                p.getRect().setLocation(20,p.getRect().y);
             }
-            if(mapDecider == 4) {
-                if(p.getRect(). x < 20 && (p.getRect().y > 200 && p.getRect(). y < 400 )) {
-                    mapDecider--;
-                    p.getRect().setLocation(740,p.getRect().y);
-                }
-                if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
-                    mapDecider++;
-                    p.getRect().setLocation(20,p.getRect().y);
-                }
+        }
+        if(mapDecider == 4) {
+            if(p.getRect(). x < 20 && (p.getRect().y > 200 && p.getRect(). y < 400 )) {
+                mapDecider--;
+                p.getRect().setLocation(740,p.getRect().y);
             }
-            if(mapDecider == 5) {
-                if( p.getRect().x < 20 && (p.getRect().y >200 && p.getRect().y < 400)) {
-                    mapDecider--;
-                    p.getRect().setLocation(740,p.getRect().y);
-                }
-                if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
-                    mapDecider++;
-                    p.getRect().setLocation(20,p.getRect().y);
-                }
+            if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
+                mapDecider++;
+                p.getRect().setLocation(20,p.getRect().y);
             }
-            if(mapDecider == 6) {
-                if( p.getRect().x < 20 && (p.getRect().y >200 && p.getRect().y < 400)) {
-                    mapDecider--;
-                    p.getRect().setLocation(740,p.getRect().y);
-                }
+        }
+        if(mapDecider == 5) {
+            if( p.getRect().x < 20 && (p.getRect().y >200 && p.getRect().y < 400)) {
+                mapDecider--;
+                p.getRect().setLocation(740,p.getRect().y);
             }
+            if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
+                mapDecider++;
+                p.getRect().setLocation(20,p.getRect().y);
+            }
+        }
+        if(mapDecider == 6) {
+            if( p.getRect().x < 20 && (p.getRect().y >200 && p.getRect().y < 400)) {
+                mapDecider--;
+                p.getRect().setLocation(740,p.getRect().y);
+            }
+        }
     }
     private void boundary(Graphics g) {
 
@@ -138,7 +144,7 @@ public class Environment {
         int skip = 10;
 
         int diam = 5;
-        BufferedImage im = getImage().get(mapDecider);
+        BufferedImage im = getImage();
         Point playerLoc = p.getRect().getLocation();
         for (int x = 0; x < im.getWidth()-20; x++) {
             for (int y = 0; y < im.getHeight()-20; y++) {
@@ -277,16 +283,15 @@ public class Environment {
         // width 800, height 600
 
         mappy(g);
-            g.drawImage(getImage().get(mapDecider), 0, 0, 800, 600, null);
+        g.drawImage(getImage(), 0, 0, 800, 600, null);
 
 
-            //boundary(g);
-           // loadArray();
+        //boundary(g);
+        // loadArray();
     }
-    
-    public int getMapDecider() {
-        return this.mapDecider;
-    }
+
+
+
 }
 
 
