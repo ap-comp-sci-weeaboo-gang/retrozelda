@@ -77,6 +77,27 @@ public class Environment {
             if(mapDecider == 14) {
                 im = ImageIO.read(new File("Envo14.png"));
             }
+            if(mapDecider == 15) {
+                im = ImageIO.read(new File("Envo15.png"));
+            }
+            if(mapDecider == 16) {
+                im = ImageIO.read(new File("Envo16.png"));
+            }
+            if(mapDecider == 17) {
+                im = ImageIO.read(new File("Envo17.png"));
+            }
+            if(mapDecider == 18) {
+                im = ImageIO.read(new File("Envo18.png"));
+            }
+            if(mapDecider == 19) {
+                im = ImageIO.read(new File("Envo19.png"));
+            }
+            if(mapDecider == 20) {
+                im = ImageIO.read(new File("Envo20.png"));
+            }
+            if(mapDecider == 21) {
+                im = ImageIO.read(new File("Envo21.png"));
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,6 +124,10 @@ public class Environment {
                 mapDecider+=2;
                 p.getRect().setLocation(20,p.getRect().y);
             }
+            if((p.getRect().x > 300 && p.getRect().x < 500) && p.getRect().y < 40) {
+                mapDecider+=16;
+                p.getRect().setLocation(p.getRect().x,510);
+            }
         }
         if(mapDecider == 1) {
 
@@ -121,13 +146,89 @@ public class Environment {
                 mapDecider++;
                 p.getRect().setLocation(20,p.getRect().y);
             }
+            if((p.getRect().x > 20 && p.getRect().x < 780) && p.getRect().y < 30) {
+                mapDecider+=13;
+                p.getRect().setLocation(p.getRect().x,500);
+            }
         }
+        if(mapDecider == 15) {
+            if((p.getRect().x > 20 && p.getRect().x < 780) && p.getRect().y > 500) {
+                mapDecider-=13;
+                p.getRect().setLocation(p.getRect().x,30);
+            }
+            if(p.getRect().x < 30 && (p.getRect().y > 20 && p.getRect().y < 580)) {
+                mapDecider++;
+                p.getRect().setLocation(740,p.getRect().y);
+            }
+        }
+        if(mapDecider == 16) {
+            if(p.getRect().x > 740 && (p.getRect().y > 20 && p.getRect().y < 580)) {
+                mapDecider--;
+                p.getRect().setLocation(20,p.getRect().y);
+            }
+            if((p.getRect().x > 300 && p.getRect().x < 500) && p.getRect().y > 520) {
+                mapDecider-=16;
+                p.getRect().setLocation(p.getRect().x,50);
+            }
+            if(p.getRect().x < 30 && (p.getRect().y > 200 && p.getRect().y < 400)) {
+                mapDecider++;
+                p.getRect().setLocation(740,p.getRect().y);
+            }
+        }
+        if(mapDecider == 17) {
+            if(p.getRect().x > 740  && (p.getRect().y > 200 && p.getRect().y < 400)) {
+                mapDecider--;
+                p.getRect().setLocation(30,p.getRect().y);
+            }
+            if(p.getRect().x < 30 && (p.getRect().y >20 && p.getRect().x < 520)) {
+                mapDecider++;
+                p.getRect().setLocation(740,p.getRect().y);
+            }
+        }
+        if(mapDecider == 18) {
+            if(p.getRect().x > 740 && (p.getRect().y > 20 && p.getRect().y < 520)) {
+                mapDecider--;
+                p.getRect().setLocation(30,p.getRect().y);
+            }
+            if(p.getRect().x < 30 && (p.getRect().y > 20 && p.getRect().y < 550)) {
+                mapDecider++;
+                p.getRect().setLocation(740,p.getRect().y);
+            }
+
+        }
+        if(mapDecider == 19) {
+            if(p.getRect().x > 740 && (p.getRect().y > 20 && p.getRect().y < 520)) {
+                mapDecider--;
+                p.getRect().setLocation(30, p.getRect().y);
+            }
+            if((p.getRect().x > 20 && p.getRect().x < 780) && p.getRect().y < 40 ) {
+                mapDecider++;
+                p.getRect().setLocation(p.getRect().x, 510);
+            }
+        }
+        if(mapDecider == 20) {
+            if((p.getRect().x > 20 && p.getRect().x < 780) && p.getRect().y > 510) {
+                mapDecider--;
+                p.getRect().setLocation(p.getRect().x,50);
+            }
+            if(p.getRect().x < 30 && (p.getRect().y > 20 && p.getRect().y < 550)) {
+                mapDecider++;
+                p.getRect().setLocation(740,p.getRect().y);
+            }
+        }
+        if(mapDecider == 21) {
+            if(p.getRect().x > 740 && (p.getRect().y > 20 && p.getRect(). y < 550)) {
+                mapDecider--;
+                p.getRect().setLocation(30,p.getRect().y);
+            }
+        }
+
+
         if(mapDecider == 3) {
             if(p.getRect().x < 20 && (p.getRect().y > 139 && p.getRect().y < 490)) {
                 mapDecider--;
                 p.getRect().setLocation(740,p.getRect().y);
             }
-
 
             if(p.getRect().x > 740 && (p.getRect().y > 200 && p.getRect().y < 400)) {
                 mapDecider++;
@@ -174,10 +275,10 @@ public class Environment {
                 mapDecider--;
                 p.getRect().setLocation(740, p.getRect().y);
             }
-            if (p.getRect().x > 740 && (p.getRect().y > 30 && p.getRect().y < 400)) {
-                mapDecider+= 2;
-                p.getRect().setLocation(30, p.getRect().y);
-            }
+//            if (p.getRect().x > 740 && (p.getRect().y > 30 && p.getRect().y < 400)) {
+//                mapDecider+= 2;
+//                p.getRect().setLocation(30, p.getRect().y);
+//            }
         }
         if(mapDecider == 8) {
             if((p.getRect().x > 400 && p.getRect().x < 730) && p.getRect().y > 500) {
@@ -369,27 +470,39 @@ public class Environment {
 
     private boolean whichColor( int r, int g, int b, Graphics gt) {
         boolean onBoundary = false;
-        if(mapDecider == 0 || mapDecider == 8 || mapDecider == 9 ) {
+        // Only block green
+        if(mapDecider == 0 || mapDecider == 8 || mapDecider == 9 || mapDecider == 15 || mapDecider == 16) {
             if (g > 80 && r + b < g) {
                 onBoundary = true;
             }
         }
+        // Block green and brown but not black
+
+        // For where you meet old man
         if(mapDecider == 1 ) {
 
             if( (r> 1 && b> 1) && !(p.getRect().y > 500 && p.getRect().y < 599) && !(p.getRect().x > 330 && p.getRect().x < 443 ) ) {
                 onBoundary = true;
             }
         }
-        if(mapDecider == 2 || mapDecider == 3 || mapDecider == 4 || mapDecider == 5 || mapDecider == 6 || mapDecider == 7|| mapDecider == 10 || mapDecider == 11 || mapDecider == 13 ) {
+        // Block any color other than almost white
+        if(mapDecider == 2 || mapDecider == 3 || mapDecider == 4 || mapDecider == 5 || mapDecider == 6 || mapDecider == 7|| mapDecider == 10 || mapDecider == 11 || mapDecider == 13 || mapDecider == 17 || mapDecider == 19 || mapDecider == 20 || mapDecider == 21) {
             if(g < 100 || b < 100 || r < 100) {
                 onBoundary = true;
             }
         }
+
         if(mapDecider == 12) {
             if(b < 100) {
                 onBoundary = true;
             }
         }
+        if(mapDecider == 18 )
+            if(g < 100 || b < 100 || r < 100) {
+                if (p.getRect().y < 243 || p.getRect().y > 300) {
+                    onBoundary = true;
+                }
+            }
 
         return onBoundary;
     }
