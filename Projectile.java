@@ -13,19 +13,14 @@ public class Projectile {
 	static BufferedImage spriteSheet;
 	boolean visible = false;
 	
-	public Projectile(int x, int y, int w, int h, String s) {
+	public Projectile(int x, int y, int w, int h, String s, int px, int py, int pw, int ph) {
 		area = new Rectangle(x,y,w,h);
-		if (s.equals("moblin")) {
-			image = getImage(90,300,15,15);
-		}
-		else {
-			image = getImage(330,0,15,15);
-		}
+		image = getImage(px,py,pw,ph, s);
 	}
 	
-	private static Image getImage(int x, int y, int w, int h) {
+	private static Image getImage(int x, int y, int w, int h, String s) {
 		try {
-			spriteSheet = ImageIO.read(new File("enemies.png"));
+			spriteSheet = ImageIO.read(new File(s));
 		} catch (IOException e) {
 			e.printStackTrace();		
 		}
@@ -34,36 +29,28 @@ public class Projectile {
 	
 	public void draw(Graphics g, Rectangle rect) {
 		if (visible == true) {
-			g.drawImage(image,(int)(area.getX()),(int)(area.getY()),(int)(area.getWidth()),(int)(area.getWidth()), null);
+			g.drawImage(image,(int)(area.getX()),(int)(area.getY()),(int)(area.getWidth()),(int)(area.getHeight()), null);
 		}
 		else if (visible == false) {
-			area.setLocation((int)(rect.getX()),(int) (rect.getY()));
+			area.setLocation((int)(rect.getX())+20,(int) (rect.getY())+20);
 		}
 	}
 	
 	public void move(String s, Rectangle rect) {
 		visible = true;
 		if (s.equals("left")) {
-			//if(area.getX()>0) {
-				area.translate(-20, 0);
-			//}
+			area.translate(-20, 0);
 		}
 		else if (s.equals("right")) {
-			//if(area.getX()<1137) {
-				area.translate(20, 0);
-			//}
+			area.translate(20, 0);
 		}
 		else if (s.equals("up")) {
-			//if(area.getY()>0) {
-				area.translate(0, -20);
-			//}
+			area.translate(0, -20);
 		}
 		else if (s.equals("down")) {
-			//if(area.getY()<622) {
-				area.translate(0, 20);
-			//}
+			area.translate(0, 20);
 		}
-		if (area.getX()<0 || area.getX()>1137 || area.getY()<0 || area.getY()>622) {
+		if (area.getX()<0 || area.getX()>800 || area.getY()<0 || area.getY()>600) {
 			visible = false;
 		}
 	}
