@@ -29,6 +29,7 @@ public class ZeldaRunner {
 	Timer enemy;
 	// hope this works
     Environment envo = new Environment(link);
+    Inventory inv=new Inventory(link);
 	boolean soundOn=false;
 	boolean alive=true;
 	static Clip audio;
@@ -61,7 +62,7 @@ public class ZeldaRunner {
 		frame.setLocation(150, 0);
 		frame.setSize(800, 600);
 		mapKeyStrokesToActions(panel);
-		
+		Inventory.setImages();
 		timer = new Timer(10, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -93,34 +94,106 @@ public class ZeldaRunner {
 		enemies.add(new ArrayList<Character>());
 		enemies.add(new ArrayList<Character>());
 		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
 		enemies.get(1).add(new OldMan());
-		enemies.get(2).add(new Octorok(710,425));
-		enemies.get(2).add(new Octorok(710,350));
-		enemies.get(2).add(new Octorok(710,275));
-		enemies.get(2).add(new Octorok(710,200));
+		
+		enemies.get(2).add(new Octorok(354,473, 0));
+		enemies.get(2).add(new Octorok(409,113, 1));
+		enemies.get(2).add(new Octorok(711,113, 0, 3));
+		
+		enemies.get(3).add(new Tektite(460,300,1));
+		enemies.get(3).add(new Tektite(409,237,0));
+		enemies.get(3).add(new Tektite(507,238,2));
+		enemies.get(3).add(new Tektite(400,339,3));
+		enemies.get(3).add(new Tektite(507,352,1));
+		
+		enemies.get(4).add(new Tektite(205,324,0));
+		enemies.get(4).add(new Tektite(591,309,2));
+		enemies.get(4).add(new Peahat(387,296,1));
+		enemies.get(4).add(new Peahat(387,296,2));
+		enemies.get(4).add(new Peahat(387,296,3));
+		
+		enemies.get(5).add(new Keese(600,186));
+		enemies.get(5).add(new Keese(379,227));
+		enemies.get(5).add(new Keese(528,400));
+		
+		enemies.get(6).add(new Keese(400,200));
+		enemies.get(6).add(new Keese(300,400));
+		enemies.get(6).add(new Peahat(630,220,2));
+		enemies.get(6).add(new Peahat(630,220,3));
+		
+		enemies.get(8).add(new Moblin(300,300));
+		enemies.get(8).add(new Moblin(500,120));
+		enemies.get(8).add(new Octorok(450,145, 1));
+		enemies.get(8).add(new Octorok(240,460, 0));
+		
+		enemies.get(9).add(new Moblin(300,300));
+		enemies.get(9).add(new Moblin(500,120));
+		enemies.get(9).add(new Octorok(450,145, 1));
+		enemies.get(9).add(new Octorok(240,460, 0));
+		
+		enemies.get(10).add(new Peahat(400, 300, 0));
+		enemies.get(10).add(new Peahat(400, 300, 1));
+		enemies.get(10).add(new Peahat(400, 300, 2));
+		enemies.get(10).add(new Peahat(400, 300, 3));
+		enemies.get(10).add(new Peahat(400, 300, 1));
+		enemies.get(10).add(new Peahat(400, 300, 2));
+		
+		enemies.get(11).add(new Peahat(400, 300, 0));
+		enemies.get(11).add(new Peahat(400, 300, 1));
+		enemies.get(11).add(new Peahat(400, 300, 2));
+		enemies.get(11).add(new Peahat(400, 300, 3));
+		enemies.get(11).add(new Peahat(400, 300, 1));
+		enemies.get(11).add(new Peahat(400, 300, 2));
+		
+		enemies.get(12).add(new Tektite(264, 184, 1));
+		enemies.get(12).add(new Tektite(510, 184, 2));
+		enemies.get(12).add(new Keese(144, 309));
+		enemies.get(12).add(new Keese(530, 440));
+		enemies.get(12).add(new Octorok(700, 160, 0, 3));
 		
 	}
 
 	protected void enemyMove() {
-		time++;
-		for (int i = 0; i < enemies.get(envo.getMapDecider()).size(); i ++) {
-			((Character) enemies.get(envo.getMapDecider()).get(i)).movePattern(link);
+		if (inv.getInventoryCondition()==false) {
+			time++;
+			for (int i = 0; i < enemies.get(envo.getMapDecider()).size(); i ++) {
+				((Character) enemies.get(envo.getMapDecider()).get(i)).movePattern(link);
+			}
 		}
-		
 	}
 
 	protected void attack() {
 		ticks++;
-		//if (ticks % 100 != 0) {
 		attackCheck();
 		link.falseSpace();
 		attack.restart();
-		//}
 		
 	}
 
 	protected void updateGame() {
-		//System.out.println(t);
 		if (audioAlive.isRunning()==true||audioDungeon.isRunning()==true||audioGameOver.isRunning()==true) {
 			soundOn=true;
 		}else {
@@ -145,7 +218,7 @@ public class ZeldaRunner {
 		ActionMap map = panel.getActionMap();
 		InputMap inMap = panel.getInputMap();
 		
-		inMap.put(KeyStroke.getKeyStroke("pressed UP"), "up");
+		inMap.put(KeyStroke.getKeyStroke("pressed W"), "up");
 		map.put("up", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -155,7 +228,7 @@ public class ZeldaRunner {
 
 			
 		});
-		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"left");
+		panel.getInputMap().put(KeyStroke.getKeyStroke("A"),"left");
 		panel.getActionMap().put("left",new AbstractAction(){
 
 			@Override
@@ -164,7 +237,7 @@ public class ZeldaRunner {
 			}
 		});
 		
-		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"right");
+		panel.getInputMap().put(KeyStroke.getKeyStroke("D"),"right");
 		panel.getActionMap().put("right",new AbstractAction(){
 
 			@Override
@@ -173,7 +246,7 @@ public class ZeldaRunner {
 			}
 		});
 		
-		panel.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"down");
+		panel.getInputMap().put(KeyStroke.getKeyStroke("S"),"down");
 		panel.getActionMap().put("down",new AbstractAction(){
 
 			@Override
@@ -182,7 +255,7 @@ public class ZeldaRunner {
 			}
 		});
         
-        panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "space");
+        panel.getInputMap().put(KeyStroke.getKeyStroke("J"), "space");
         panel.getActionMap().put("space", new AbstractAction() {
             
             @Override
@@ -190,20 +263,45 @@ public class ZeldaRunner {
                 hit("space");
             }
         });
+        panel.getInputMap().put(KeyStroke.getKeyStroke("K"), "inv");
+		panel.getActionMap().put("inv", new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (link.getCollected() == true) {
+					inv.changeInvCondition();
+					link.setItem(inv.getCurrentItem());
+				}
+
+			}
+		});
 	}
 	public  void hit(String s) {
-		link.keyHit(s);
-		if (s.equals("space")) {
-			attack.start();
+		if (inv.getInventoryCondition()==true&&s.equals("right")) {
+			inv.itemMoveRight();
 		}
-		panel.repaint();
+		if (inv.getInventoryCondition()==true&&s.equals("left")) {
+			inv.itemMoveLeft();
+		}
+		if (inv.getInventoryCondition()==false) {
+			link.keyHit(s);
+			if (s.equals("space")) {
+				attack.start();
+			}//if inv is on change playerselected
+			panel.repaint();
+		}
 	}
 	
 	private void attackCheck() {
 		for(int i = 0; i < enemies.get(envo.getMapDecider()).size(); i++) {
 			if (link.getSwordRect().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect()) && link.getSpace() == true) {
-				((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
-				enemies.get(envo.getMapDecider()).remove(i);
+				if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)) {
+					if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
+							&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+						((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+						enemies.get(envo.getMapDecider()).remove(i);
+					}
+				}
 			}
 		}
 	}
@@ -211,8 +309,15 @@ public class ZeldaRunner {
 	protected void drawAll(Graphics g) {
 		envo.draw(g);
 		link.draw(g);
+		if (envo.getMapDecider() == 1) {
+			((OldMan) enemies.get(1).get(0)).checkSword(link);
+		}
+		System.out.println(envo.getMapDecider());
 		for (int i = 0; i < enemies.get(envo.getMapDecider()).size(); i ++) {
 			((Character) enemies.get(envo.getMapDecider()).get(i)).draw(g);
+		}
+		if (link.getCollected() == true) {
+			inv.draw(g);
 		}
 	}
 	public static Clip get(String filename){
