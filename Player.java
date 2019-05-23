@@ -15,9 +15,26 @@ public class Player extends Character {
 	private Image rightSword;
 	private Image downSword;
 	private Image leftSword;
+	private boolean collected = false;
 	private boolean space = false;
-	private boolean sword = true;
+	private boolean sword = false;
+	private boolean bow = false;
+	private boolean boomerang = false;
+	private String weapon;
 	private Rectangle swordRect;
+	private Image upAttack;
+	private Image rightAttack;
+	private Image downAttack;
+	private Image leftAttack;
+	private Projectile upArrow;
+	private Projectile rightArrow;
+	private Projectile downArrow;
+	private Projectile leftArrow;
+	private boolean initialSpace = false;
+	private int health = 3;
+	private Image hearts;
+	private Boomerang boom;
+	private String choice;
 
 	public Player() {
 		super(getImage(60,0,15,15), getImage(90,30,15,15), getImage(0,0,15,15), getImage(30,0,15,15), 
@@ -27,7 +44,20 @@ public class Player extends Character {
 		downSword = getImage(0,82,15,30);
 		leftSword = getImage(22,90,30,15);
 		swordRect = new Rectangle((int)(getRect().getX()+getRect().getWidth()*0.3), (int)(getRect().getX()+getRect().getWidth()), (int)(getRect().getWidth())/2, (int)(getRect().getWidth()-getRect().getWidth()*0.06));
-		
+		upAttack = getImage(60,60,15,15);
+		rightAttack = getImage(90,60,15,15);
+		downAttack = getImage(0,60,15,15);
+		leftAttack = getImage(30,60,15,15);
+		upArrow = new Projectile((int)(getRect().getX())+20, (int)(getRect().getY()),16, 40, "link.png", 184, 193, 8, 20);
+		rightArrow = new Projectile((int)(getRect().getX()), (int)(getRect().getY())+20,40, 16, "link.png", 209, 198, 20, 8);
+		downArrow = new Projectile((int)(getRect().getX())+20, (int)(getRect().getY()),16, 40, "link.png", 124, 193, 8, 20);
+		leftArrow = new Projectile((int)(getRect().getX()), (int)(getRect().getY())+20,40, 16, "link.png", 149, 198, 20, 8);
+		try {
+			hearts = ImageIO.read(new File("heart.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		boom = new Boomerang((int)(getRect().getX()), (int)(getRect().getY()), 40, 40);
 	}
 	
 	private static Image getImage(int x, int y, int w, int h) {
@@ -40,11 +70,22 @@ public class Player extends Character {
 	}
 
 	public void draw(Graphics g) {
+		if (bow == true & initialSpace == true) {
+			shoot();
+		}
+		if (boomerang == true & initialSpace == true) {
+			toss();
+		}
 		if (direction.equals("up")) {
 			if (space == true && sword == true) {
 				swordRect.setBounds((int)(getRect().getX()+getRect().getWidth()*0.3), (int)(getRect().getY()-getRect().getWidth()), (int)(getRect().getWidth())/2, (int)(getRect().getWidth()-(getRect().getWidth()*0.06)));
-				//g.drawRect((int)(getRect().getX()+getRect().getWidth()*0.3), (int)(getRect().getY()-getRect().getWidth()), (int)(getRect().getWidth())/2, (int)(getRect().getWidth()-(getRect().getWidth()*0.06)));
 				g.drawImage(upSword,(int)(getRect().getX()),(int)(getRect().getY()-swordRect.getHeight()),(int)(getRect().getWidth()),(int)(getRect().getWidth())*2, null);
+			}
+			else if (bow == true && space == true) {
+				g.drawImage(upAttack,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+			}
+			else if (boomerang == true && space == true) {
+				g.drawImage(upAttack,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
 			}
 			else if (clicks%2 ==0)
 				g.drawImage(getUpMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
@@ -54,8 +95,13 @@ public class Player extends Character {
 		else if (direction.equals("right")) {
 			if (space == true && sword == true) {
 				swordRect.setBounds((int)(getRect().getX()+getRect().getWidth()), (int)(getRect().getY()+getRect().getWidth()*0.3), (int)(getRect().getWidth()-getRect().getWidth()*0.06), (int)(getRect().getWidth())/2);
-				//g.drawRect((int)(getRect().getX()+getRect().getWidth()), (int)(getRect().getY()+getRect().getWidth()*0.2), (int)(getRect().getWidth()-getRect().getWidth()*0.06), (int)(getRect().getWidth())/2);
 				g.drawImage(rightSword,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth())*2,(int)(getRect().getWidth()), null);
+			}
+			else if (bow == true && space == true) {
+				g.drawImage(rightAttack,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+			}
+			else if (boomerang == true && space == true) {
+				g.drawImage(rightAttack,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
 			}
 			else if (clicks%2 ==0) 
 				g.drawImage(getRightMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
@@ -65,10 +111,14 @@ public class Player extends Character {
 		else if (direction.equals("down")) {
 			if (space == true && sword == true) {
 				swordRect.setBounds((int)(getRect().getX()+getRect().getWidth()*0.3), (int)(getRect().getY()+getRect().getWidth()), (int)(getRect().getWidth())/2, (int)(getRect().getWidth()-getRect().getWidth()*0.06));
-				//g.drawRect((int)(getRect().getX()+getRect().getWidth()*0.3), (int)(getRect().getY()+getRect().getWidth()), (int)(getRect().getWidth())/2, (int)(getRect().getWidth()-getRect().getWidth()*0.06));
 				g.drawImage(downSword,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth())*2, null);
-			
-				}
+			}
+			else if (bow == true && space == true) {
+				g.drawImage(downAttack,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+			}
+			else if (boomerang == true && space == true) {
+				g.drawImage(downAttack,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+			}
 			else if (clicks%2 ==0)
 				g.drawImage(getDownMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
 			else 
@@ -77,13 +127,62 @@ public class Player extends Character {
 		else if (direction.equals("left")) {
 			if (space == true && sword == true) {
 				swordRect.setBounds((int)(getRect().getX()-getRect().getWidth()), (int)(getRect().getY()+getRect().getWidth()*0.3), (int)(getRect().getWidth()-getRect().getWidth()*0.06), (int)(getRect().getWidth())/2);
-				//g.drawRect((int)(getRect().getX()-getRect().getWidth()), (int)(getRect().getY()+getRect().getWidth()*0.2), (int)(getRect().getWidth()-getRect().getWidth()*0.06), (int)(getRect().getWidth())/2);
 				g.drawImage(leftSword,(int)(getRect().getX()-swordRect.getWidth()),(int)(getRect().getY()),(int)(getRect().getWidth())*2,(int)(getRect().getWidth()), null);
-				}
+			}
+			else if (bow == true && space == true) {
+				g.drawImage(leftAttack,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+			}
+			else if (boomerang == true && space == true) {
+				g.drawImage(leftAttack,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+			}
 			else if (clicks%2 ==0)
 				g.drawImage(getLeftMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
 			else 
 				g.drawImage(getLeftImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+		}
+		upArrow.draw(g, getRect());
+		rightArrow.draw(g, getRect());
+		downArrow.draw(g, getRect());
+		leftArrow.draw(g, getRect());
+		boom.draw(g, getRect());
+		for (int currHealth = 0; currHealth < health; currHealth++) {
+			g.drawImage(hearts, currHealth*25, 0, 50, 30, null);
+		}
+	}
+	
+	private void toss() {
+		if (boom.getVisible() == false) {
+			boom.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
+			if (direction.equals("down")) {
+				choice = "down";
+				boom.move("choice", getRect());
+			}
+			else if (direction.equals("up")) {
+				choice = "up";
+				boom.move(choice, getRect());
+			}
+			else if (direction.equals("left")) {
+				choice = "left";
+				boom.move(choice, getRect());
+			}
+			else if (direction.equals("right")) {
+				choice = "right";
+				boom.move(choice, getRect());
+			}
+		}
+		else if (boom.getVisible() == true) {
+			boom.move(choice, getRect());
+		}
+		if (boom.getVisible() == false && boom.getBack() == true) {
+			initialSpace = false;
+			boom.setBack(false);
+		}
+		
+	}
+
+	public void addHearts() {
+		if (health <30) {
+			health++;
 		}
 	}
 	
@@ -110,6 +209,45 @@ public class Player extends Character {
 		}
 		else if (s.equals("space")) {
 			space = true;
+			if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false && (bow == true || boomerang == true)) {
+				initialSpace = true;
+			}
+		}
+	}
+	
+	public void shoot() {
+		if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false) {
+			upArrow.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
+			rightArrow.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
+			downArrow.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
+			leftArrow.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
+			if (direction.equals("down")) {
+				downArrow.move("down", getRect());
+			}
+			else if (direction.equals("up")) {
+				upArrow.move("up", getRect());
+			}
+			else if (direction.equals("left")) {
+				leftArrow.move("left", getRect());
+			}
+			else if (direction.equals("right")) {
+				rightArrow.move("right", getRect());
+			}
+		}
+		else if (upArrow.getVisible() == true) {
+			upArrow.move("up", getRect());
+		}
+		else if (rightArrow.getVisible() == true) {
+			rightArrow.move("right", getRect());
+		}
+		else if (downArrow.getVisible() == true) {
+			downArrow.move("down", getRect());
+		}
+		else if (leftArrow.getVisible() == true) {
+			leftArrow.move("left", getRect());
+		}
+		if (upArrow.getVisible() == false && rightArrow.getVisible() ==false && downArrow.getVisible() == false && leftArrow.getVisible() == false) {
+			initialSpace = false;
 		}
 	}
 	
@@ -123,5 +261,40 @@ public class Player extends Character {
 	
 	public Rectangle getSwordRect() {
 		return this.swordRect;
+	}
+	
+	public void showSword() {
+		sword = true;
+	}
+	
+	public String getDirection() {
+		return this.direction;
+	}
+	
+	public void setItem(int num) {
+		if (num == 0) {
+			sword = true;
+			bow = false;
+			boomerang = false;
+		}
+		else if (num == 1) {
+			bow = true;
+			sword = false;
+			boomerang = false;
+		}
+		else if (num == 2) {
+			boomerang = true;
+			sword = false;
+			bow = false;
+		}
+		else if (num == 3) {
+		}
+	}
+	
+	public boolean getCollected() {
+		return collected;
+	}
+	public void trueCollected() {
+		collected = true;
 	}
 }
