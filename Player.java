@@ -35,6 +35,7 @@ public class Player extends Character {
 	private Image hearts;
 	private Boomerang boom;
 	private String choice;
+	private boolean invincible;
 
 	public Player() {
 		super(getImage(60,0,15,15), getImage(90,30,15,15), getImage(0,0,15,15), getImage(30,0,15,15), 
@@ -48,10 +49,10 @@ public class Player extends Character {
 		rightAttack = getImage(90,60,15,15);
 		downAttack = getImage(0,60,15,15);
 		leftAttack = getImage(30,60,15,15);
-		upArrow = new Projectile((int)(getRect().getX())+20, (int)(getRect().getY()),16, 40, "link.png", 184, 193, 8, 20);
-		rightArrow = new Projectile((int)(getRect().getX()), (int)(getRect().getY())+20,40, 16, "link.png", 209, 198, 20, 8);
-		downArrow = new Projectile((int)(getRect().getX())+20, (int)(getRect().getY()),16, 40, "link.png", 124, 193, 8, 20);
-		leftArrow = new Projectile((int)(getRect().getX()), (int)(getRect().getY())+20,40, 16, "link.png", 149, 198, 20, 8);
+		upArrow = new Projectile((int)(getRect().getX())+20, (int)(getRect().getY())+20,16, 40, "link.png", 184, 193, 8, 20);
+		rightArrow = new Projectile((int)(getRect().getX())+20, (int)(getRect().getY())+20,40, 16, "link.png", 209, 198, 20, 8);
+		downArrow = new Projectile((int)(getRect().getX())+20, (int)(getRect().getY())+20,16, 40, "link.png", 124, 193, 8, 20);
+		leftArrow = new Projectile((int)(getRect().getX())+20, (int)(getRect().getY())+20,40, 16, "link.png", 149, 198, 20, 8);
 		try {
 			hearts = ImageIO.read(new File("heart.png"));
 		} catch (IOException e) {
@@ -186,23 +187,30 @@ public class Player extends Character {
 		}
 	}
 	
+	public void subtractHearts() {
+		if (health > 0 && invincible == false) {
+			health--;
+			invincible = true;
+		}
+	}
+	
 	public void keyHit(String s) {
-		if (s.equals("left")) {
+		if (s.equals("left") && this.getRect().getX()-10 >= 1) {
 			getRect().translate(-15, 0);
 			direction = "left";
 			clicks++;
 		}
-		else if (s.equals("right")) {
+		else if (s.equals("right") && this.getRect().getX()+10 <= 799-(getRect().getWidth())) {
 			this.getRect().translate(15, 0);
 			direction = "right";
 			clicks++;
 		}
-		else if (s.equals("up")) {
+		else if (s.equals("up") && this.getRect().getY()-10 >= 1) {
 			this.getRect().translate(0, -15);
 			direction = "up";
 			clicks++;
 		}
-		else if (s.equals("down")) {
+		else if (s.equals("down") && this.getRect().getY()+10 <= 599-getRect().getHeight()) {
 			this.getRect().translate(0, 15);
 			direction = "down";
 			clicks++;
@@ -217,10 +225,10 @@ public class Player extends Character {
 	
 	public void shoot() {
 		if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false) {
-			upArrow.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
-			rightArrow.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
-			downArrow.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
-			leftArrow.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
+			upArrow.setLoc((int)(this.getRect().getX())+20,(int) (this.getRect().getY())+20);
+			rightArrow.setLoc((int)(this.getRect().getX())+20,(int) (this.getRect().getY())+20);
+			downArrow.setLoc((int)(this.getRect().getX())+20,(int) (this.getRect().getY())+20);
+			leftArrow.setLoc((int)(this.getRect().getX())+20,(int) (this.getRect().getY())+20);
 			if (direction.equals("down")) {
 				downArrow.move("down", getRect());
 			}
@@ -297,4 +305,35 @@ public class Player extends Character {
 	public void trueCollected() {
 		collected = true;
 	}
+	public Boomerang getBoom() {
+		return this.boom;
+	}
+	public Projectile getUpArrow() {
+		return this.upArrow;
+	}
+	public Projectile getRightArrow() {
+		return this.rightArrow;
+	}
+	public Projectile getDownArrow() {
+		return this.downArrow;
+	}
+	public Projectile getLeftArrow() {
+		return this.leftArrow;
+	}
+	public boolean getSword() {
+		return sword;
+	}
+	public boolean getBow() {
+		return bow;
+	}
+	public boolean getBoomerang() {
+		return boomerang;
+	}
+	public boolean getInitialSpace() {
+		return this.initialSpace;
+	}
+	public void setInvincible(boolean b) {
+		this.invincible = b;
+	}
+	
 }
