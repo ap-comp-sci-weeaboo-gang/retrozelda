@@ -62,4 +62,8 @@ public class Projectile {
 	public void setLoc(int x, int y) {
 		area.setLocation(x, y);
 	}
+	
+	public Rectangle getArea() {
+		return this.area;
+	}
 }
