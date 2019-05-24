@@ -35,8 +35,6 @@ public class Peahat extends Character {
 
 	@Override
 	public void draw(Graphics g) {
-		System.out.println(flying);
-		System.out.println(loop);
 		if (flying == false)	
 			g.drawImage(getDownImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
 		else {

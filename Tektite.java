@@ -35,8 +35,12 @@ public class Tektite extends Character {
 	public void draw(Graphics g) {
 		if (moving == true)	
 			g.drawImage(getDownMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
-		else 	
-			g.drawImage(getDownImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+		else {
+			if (clicks %2 == 0) 
+				g.drawImage(getDownMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+			else 
+				g.drawImage(getDownImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+		}
 	}
 	
 	public void keyHit(int x, int y) {
@@ -58,7 +62,7 @@ public class Tektite extends Character {
 	@Override
 	public void movePattern(Player p) {
 		if (moving == false) { 
-			if (clicks > 10) {
+			if (clicks > 5) {
 				startX = (int) this.getRect().getX();
 				startY = (int) this.getRect().getY();
 				goalX = (int)(Math.random()*150);

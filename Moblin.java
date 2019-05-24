@@ -19,7 +19,7 @@ public class Moblin extends Character  {
 	public Moblin(int x, int y) {
 		super(getImage(60,120,20,20), getImage(90,120,20,20), getImage(0,120,20,20), getImage(30,120,20,20), 
 				getImage(60,150,20,20), getImage(90,150,20,20), getImage(0,150,20,20), getImage(30,150,20,20),x, y, 50, 50);
-		shot = new Projectile((int)(getRect().getX()), (int)(getRect().getY()), 30, 30, "moblin");
+		shot = new Projectile((int)(getRect().getX()), (int)(getRect().getY()), 30, 30, "enemies.png", 90, 300, 15, 15);
 	}
 	
 	private static Image getImage(int x, int y, int w, int h) {
@@ -85,25 +85,21 @@ public class Moblin extends Character  {
 	
 	@Override 
 	public void movePattern(Player p) {
-		if (p.getRect().getX() > this.getRect().getX()) {
-			if (count%2 == 0) {
+		if (p.getRect().getX() > this.getRect().getX()+5) {
+			if (count%2 == 0)
 				keyHit("right");
-			}
 		}
-		else if (p.getRect().getX() < this.getRect().getX()) {
-			if (count%2 == 0) {
+		else if (p.getRect().getX() < this.getRect().getX()-5) {
+			if (count%2 == 0)
 				keyHit("left");
-			}
 		}
-		else if (p.getRect().getY() > this.getRect().getY()) {
-			if (count%2 == 0) {
+		else if (p.getRect().getY() > this.getRect().getY()+5) {
+			if (count%2 == 0)
 				keyHit("down");
-			}
 		}
-		else if (p.getRect().getY() < this.getRect().getY()) {
-			if (count%2 == 0) {
+		else if (p.getRect().getY() < this.getRect().getY()-5) {
+			if (count%2 == 0)
 				keyHit("up");
-			}
 		}
 		count++;
 		shoot(p);
@@ -133,6 +129,10 @@ public class Moblin extends Character  {
 			shot.move(choice, getRect());
 		}
 		
+	}
+	
+	public Projectile getShot() {
+		return this.shot;
 	}
 }
 	

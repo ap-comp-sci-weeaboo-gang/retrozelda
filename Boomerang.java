@@ -92,6 +92,8 @@ public class Boomerang {
 		System.out.println(moves);
 		if (area.getX()<0 || area.getX()>800 || area.getY()<0 || area.getY()>600) {
 			visible = false;
+			area.setLocation(rect.getLocation());
+			back = true;
 		}
 	}
 	
@@ -109,5 +111,9 @@ public class Boomerang {
 	
 	public void setLoc(int x, int y) {
 		area.setLocation(x, y);
+	}
+	
+	public Rectangle getArea() {
+		return this.area;
 	}
 }
