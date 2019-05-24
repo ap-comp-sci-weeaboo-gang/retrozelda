@@ -36,6 +36,8 @@ public class ZeldaRunner {
 	int t = 0;
 	int ticks = 1;
 	int time;
+	int save;
+	int save1;
 	Clip audioAlive=get("overworld.wav");
 	Clip audioDungeon=get("dungeon.wav");
 	Clip audioGameOver=get("gameover.wav");
@@ -117,6 +119,12 @@ public class ZeldaRunner {
 		enemies.add(new ArrayList<Character>());
 		enemies.add(new ArrayList<Character>());
 		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
+		enemies.add(new ArrayList<Character>());
 		enemies.get(1).add(new OldMan());
 		
 		enemies.get(2).add(new Octorok(354,473, 0));
@@ -161,12 +169,10 @@ public class ZeldaRunner {
 		enemies.get(10).add(new Peahat(400, 300, 1));
 		enemies.get(10).add(new Peahat(400, 300, 2));
 		
-		enemies.get(11).add(new Peahat(400, 300, 0));
-		enemies.get(11).add(new Peahat(400, 300, 1));
-		enemies.get(11).add(new Peahat(400, 300, 2));
-		enemies.get(11).add(new Peahat(400, 300, 3));
-		enemies.get(11).add(new Peahat(400, 300, 1));
-		enemies.get(11).add(new Peahat(400, 300, 2));
+		enemies.get(11).add(new Goriya(124, 213));
+		enemies.get(11).add(new Goriya(704, 239));
+		enemies.get(11).add(new Goriya(400, 258));
+		enemies.get(11).add(new Goriya(600, 440));
 		
 		enemies.get(12).add(new Tektite(264, 184, 1));
 		enemies.get(12).add(new Tektite(510, 184, 2));
@@ -174,22 +180,114 @@ public class ZeldaRunner {
 		enemies.get(12).add(new Keese(530, 440));
 		enemies.get(12).add(new Octorok(700, 160, 0, 3));
 		
+		enemies.get(13).add(new Peahat(379, 298, 0));
+		enemies.get(13).add(new Peahat(379, 298, 1));
+		enemies.get(13).add(new Peahat(379, 298, 2));
+		enemies.get(13).add(new Peahat(379, 298, 3));
+		enemies.get(13).add(new Peahat(379, 298, 1));
+		
+		enemies.get(15).add(new Octorok(354,473, 0));
+		enemies.get(15).add(new Octorok(508,113, 1));
+		enemies.get(15).add(new Octorok(711,113, 0, 3));
+		
+		enemies.get(16).add(new Octorok(206, 117, 1));
+		enemies.get(16).add(new Keese(494, 192));
+		enemies.get(16).add(new Keese(505, 402));
+		enemies.get(16).add(new Octorok(658, 475, 0));
+		
+		enemies.get(17).add(new Octorok(355, 462, 0));
+		enemies.get(17).add(new Octorok(100, 125, 1));
+		enemies.get(17).add(new Tektite(620, 169, 0));
+		enemies.get(17).add(new Tektite(452, 448, 3));
+		
+		enemies.get(18).add(new Moblin(282, 293));
+		enemies.get(18).add(new Keese(404, 159));
+		enemies.get(18).add(new Keese(145, 446));
+		enemies.get(18).add(new Octorok(554, 466, 0));
+		
+		enemies.get(19).add(new Moblin(578, 146));
+		enemies.get(19).add(new Peahat(307, 293, 0));
+		enemies.get(19).add(new Peahat(307, 293, 2));
+		enemies.get(19).add(new Peahat(307, 293, 3));
+		
+		enemies.get(20).add(new Octorok(210, 466, 1, 3));
+		enemies.get(20).add(new Keese(377, 174));
+		enemies.get(20).add(new Keese(616, 307));
+		
+		enemies.get(21).add(new Moblin(447, 207));
+		enemies.get(21).add(new Goriya(216, 256));
+		enemies.get(21).add(new Goriya(406, 456));
+		enemies.get(21).add(new Moblin(643, 430));
+		
+		enemies.get(22).add(new Octorok(560, 470, 0));
+		enemies.get(22).add(new Octorok(105, 132, 1));
+		enemies.get(22).add(new Peahat(407, 319, 2));
+		enemies.get(22).add(new Peahat(407, 319, 1));
+		
+		enemies.get(23).add(new Peahat(511, 298, 2));
+		enemies.get(23).add(new Peahat(511, 298, 1));
+		enemies.get(23).add(new Peahat(511, 298, 0));
+		enemies.get(23).add(new Peahat(511, 298, 3));
+		enemies.get(23).add(new Peahat(511, 298, 2));
+		
+		enemies.get(24).add(new Keese(95, 355));
+		enemies.get(24).add(new Keese(450, 137));
+		enemies.get(24).add(new Moblin(490, 306));
+		
+		enemies.get(25).add(new Keese(230, 274));
+		enemies.get(25).add(new Keese(211, 459));
+		enemies.get(25).add(new Goriya(430, 190));
+		
+		enemies.get(26);
+		
+		enemies.get(27);
+		
+		enemies.get(28);
+		
+		enemies.get(29);
+		
+		enemies.get(30);
+		
+		enemies.get(31);
 	}
 
 	protected void enemyMove() {
 		if (inv.getInventoryCondition()==false) {
 			time++;
+			if (time - save == 3) {
+				link.setInvincible(false);
+			}
 			for (int i = 0; i < enemies.get(envo.getMapDecider()).size(); i ++) {
 				((Character) enemies.get(envo.getMapDecider()).get(i)).movePattern(link);
+				if (((Character) enemies.get(envo.getMapDecider()).get(i)).getRect().intersects(link.getRect()) 
+						||  (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class) &&
+								((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying() == false 
+								&& ((Peahat) enemies.get(envo.getMapDecider()).get(i)).getRect().intersects(link.getRect()))
+						|| (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Tektite.class) &&
+								((Tektite) enemies.get(envo.getMapDecider()).get(i)).getMoving() == false
+								&& ((Tektite) enemies.get(envo.getMapDecider()).get(i)).getRect().intersects(link.getRect())) 
+						|| (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Octorok.class) &&
+						((Octorok) enemies.get(envo.getMapDecider()).get(i)).getShot().getArea().intersects(link.getRect()))
+						|| (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Moblin.class) &&
+						((Moblin) enemies.get(envo.getMapDecider()).get(i)).getShot().getArea().intersects(link.getRect()))
+						|| (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Goriya.class) &&
+						((Goriya) enemies.get(envo.getMapDecider()).get(i)).getBoom().getArea().intersects(link.getRect()))){
+					link.subtractHearts();
+					save = time;
+				}
 			}
 		}
 	}
 
 	protected void attack() {
 		ticks++;
+		if (ticks - save1 == 3) {
+			// enemies.get(Dodongo area).get(0).setStunned(false);
+		}
 		attackCheck();
 		link.falseSpace();
 		attack.restart();
+		link.setInvincible(false);
 		
 	}
 
@@ -294,10 +392,72 @@ public class ZeldaRunner {
 	
 	private void attackCheck() {
 		for(int i = 0; i < enemies.get(envo.getMapDecider()).size(); i++) {
-			if (link.getSwordRect().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect()) && link.getSpace() == true) {
-				if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)) {
+			if (link.getSword() == true && link.getSwordRect().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect()) && link.getSpace() == true) {
+				if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
+						&& !enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class)) {
 					if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
 							&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+						((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+						enemies.get(envo.getMapDecider()).remove(i);
+					}
+				}
+			}
+			else if (link.getBow() == true && link.getInitialSpace() == true) {
+				if (link.getUpArrow().getVisible() == true && link.getUpArrow().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
+					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class) 
+							&& !enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class)) {
+						if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
+								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+							enemies.get(envo.getMapDecider()).remove(i);
+						}
+					}
+				}
+				else if (link.getRightArrow().getVisible() == true && link.getRightArrow().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
+					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
+							&& !enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class)) {
+						if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
+								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+							enemies.get(envo.getMapDecider()).remove(i);
+						}
+					}
+				}
+				else if (link.getDownArrow().getVisible() == true && link.getDownArrow().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
+					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
+							&& !enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class)) {
+						if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
+								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+							enemies.get(envo.getMapDecider()).remove(i);
+						}
+					}
+				}
+				else if (link.getLeftArrow().getVisible() == true && link.getLeftArrow().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
+					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
+							&& !enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class)) {
+						if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
+								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+							enemies.get(envo.getMapDecider()).remove(i);
+						}
+					}
+				}
+			}
+			else if (link.getBoomerang() == true && link.getBoom().getVisible() == true && link.getBoom().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
+				if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
+						&& !enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class)) {
+					if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
+							&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+						((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+						enemies.get(envo.getMapDecider()).remove(i);
+					}
+				}
+				else if (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class) 
+						&& ((Dodongo) enemies.get(envo.getMapDecider()).get(i)).getStunned() == false){
+					((Dodongo) enemies.get(envo.getMapDecider()).get(i)).lowerHealth();
+					save1 = ticks;
+					if (((Dodongo) enemies.get(envo.getMapDecider()).get(i)).getHealth() == 0){
 						((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
 						enemies.get(envo.getMapDecider()).remove(i);
 					}
