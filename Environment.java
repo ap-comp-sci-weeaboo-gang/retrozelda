@@ -658,9 +658,9 @@ public class Environment {
 
         // width 800, height 600
 
-
-        g.drawImage(getImage(), 0, 0, 800, 600, null);
         mappy(g);
+        g.drawImage(getImage(), 0, 0, 800, 600, null);
+        
 
         //boundary(g);
         // loadArray();
