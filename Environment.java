@@ -149,10 +149,10 @@ public class Environment {
                 mapDecider++;
                 p.getRect().setLocation(377,490);
             }
-            if((p.getRect().x > 730) && (p.getRect().y > 260 && p.getRect().y < 310)) {
+            if(p.getRect().x > 720) {
 
                 mapDecider+=2;
-                p.getRect().setLocation(20,p.getRect().y);
+                p.getRect().setLocation(30,p.getRect().y);
             }
             if((p.getRect().x > 300 && p.getRect().x < 500) && p.getRect().y < 40) {
                 mapDecider+=16;
