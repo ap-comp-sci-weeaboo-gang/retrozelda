@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Environment {
 
-    private int mapDecider = 32;
+    private int mapDecider;
     private BufferedImage im;
     // I have to remember that I may not be able to start from the first map
     private Player p;
@@ -136,6 +136,12 @@ public class Environment {
             }
             if(mapDecider == 34) {
                 im = ImageIO.read(new File("Envo34.png"));
+            }
+            if(mapDecider == 35) {
+                im = ImageIO.read(new File("Envo35.png"));
+            }
+            if(mapDecider == 36) {
+                im = ImageIO.read(new File("Envo36.png"));
             }
 
         } catch (IOException e) {
@@ -348,9 +354,32 @@ public class Environment {
             }
         }
         if(mapDecider == 28) {
+            g.drawRect(400,250,40,70);
             if(p.getRect().x < 40) {
                 mapDecider-=5;
                 p.getRect().setLocation(740,p.getRect().y);
+            }
+            if((p.getRect().x > 380 & p.getRect().x < 440) && (p.getRect().y > 250 && p.getRect().y < 290)) {
+                mapDecider+=7;
+                p.getRect().setLocation(380,480);
+            }
+        }
+        if(mapDecider == 35) {
+            if(p.getRect().y > 480 && (p.getRect().x > 366 && p.getRect().x < 444 )) {
+                mapDecider-=7;
+                p.getRect().setLocation(400,290);
+            }
+
+            if(p.getRect().x < 90 && (p.getRect().y > 265 && p.getRect().y <315) ) {
+                mapDecider++;
+                p.getRect().setLocation(662,293);
+            }
+        }
+        if(mapDecider == 36) {
+
+            if(p.getRect().x > 677 && (p.getRect().y > 270 && p.getRect().y < 345)) {
+                mapDecider--;
+                p.getRect().setLocation(99,293);
             }
         }
 
@@ -540,7 +569,7 @@ public class Environment {
     private void boundary(Graphics g) {
 
         g.setColor(Color.BLUE);
-        //System.out.println(r.getPixelColor(p.getRect().x,p.getRect().y));
+        System.out.println(r.getPixelColor(p.getRect().x,p.getRect().y));
         System.out.println("(" + p.getRect().x + " , " + p.getRect().y + ")");
         int red = 0, green = 0, blue = 0;
         int skip = 10;
@@ -686,7 +715,7 @@ public class Environment {
             if (b > 100) {
                 onBoundary = true;
             }
-            if (!p.getRect().intersects(110, 110, 545, 362)) {
+            if (!p.getRect().intersects(110, 110, 545, 383)) {
             onBoundary = true;
             }
         }
@@ -702,7 +731,46 @@ public class Environment {
             if (!p.getRect().intersects(130, 130, 545, 382)) {
                 onBoundary = true;
             }
+            if(p.getRect().intersects(202,227,46,50)) {
+                onBoundary = true;
+            }
+            if(p.getRect().intersects(202,345,46,50)) {
+                onBoundary = true;
+            }
+            if(p.getRect().intersects(550,345,46,50)) {
+                onBoundary = true;
+            }
+            if(p.getRect().intersects(550,227,46,50)) {
+                onBoundary = true;
+            }
+
         }
+        if(mapDecider == 35) {
+            if (!p.getRect().intersects(110, 130, 545, 382)) {
+                onBoundary = true;
+            }
+            if ((r > 120 && r < 170)) {
+                onBoundary = true;
+            }
+        }
+        if(mapDecider == 36) {
+            if (!p.getRect().intersects(130, 130, 565, 382)) {
+                onBoundary = true;
+            }
+            if(p.getRect().intersects(199,173,50,50)) {
+                onBoundary = true;
+            }
+            if(p.getRect().intersects(199,398,50,50)) {
+                onBoundary = true;
+            }
+            if(p.getRect().intersects(551,173,50,50)) {
+                onBoundary = true;
+            }
+            if(p.getRect().intersects(551,398,50,50)) {
+                onBoundary = true;
+            }
+        }
+
         if(mapDecider == 12) {
             if(b < 100) {
                 onBoundary = true;
@@ -725,7 +793,7 @@ public class Environment {
 
         mappy(g);
         g.drawImage(getImage(), 0, 0, 800, 600, null);
-        
+
 
         //boundary(g);
         // loadArray();
