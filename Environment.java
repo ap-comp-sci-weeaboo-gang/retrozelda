@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Environment {
 
-    private int mapDecider;
+    private int mapDecider = 32;
     private BufferedImage im;
     // I have to remember that I may not be able to start from the first map
     private Player p;
@@ -128,6 +128,15 @@ public class Environment {
             if(mapDecider == 31) {
                 im = ImageIO.read(new File("Envo31.png"));
             }
+            if(mapDecider == 32) {
+                im = ImageIO.read(new File("Envo32.png"));
+            }
+            if(mapDecider == 33) {
+                im = ImageIO.read(new File("Envo33.png"));
+            }
+            if(mapDecider == 34) {
+                im = ImageIO.read(new File("Envo34.png"));
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -191,7 +200,9 @@ public class Environment {
                 p.getRect().setLocation(179, 115);
             }
         }
+
         if (mapDecider == 2) {
+            System.out.println("x= " + p.getRect().x + " y= " + p.getRect().y);
             if((p.getRect().x < 20) && (p.getRect().y > 262 && p.getRect().y <  310 )) {
                 mapDecider-=2;
                 p.getRect().setLocation(720,p.getRect().y);
@@ -205,20 +216,22 @@ public class Environment {
                 p.getRect().setLocation(p.getRect().x,500);
             }
         }
+
         if(mapDecider == 15) {
             if((p.getRect().x > 20 && p.getRect().x < 780) && p.getRect().y > 500) {
                 mapDecider-=13;
                 p.getRect().setLocation(p.getRect().x,30);
+                System.out.println("Going down to map " + mapDecider);
             }
-            if(p.getRect().x < 30 && (p.getRect().y > 20 && p.getRect().y < 580)) {
+            else if(p.getRect().x < 30 && (p.getRect().y > 20 && p.getRect().y < 580)) {
                 mapDecider++;
                 p.getRect().setLocation(740,p.getRect().y);
             }
-            if((p.getRect().x > 20 && p.getRect().x < 780) && p.getRect().y < 40) {
+            else if((p.getRect().x > 20 && p.getRect().x < 780) && p.getRect().y < 40) {
                 mapDecider+=12;
                 p.getRect().setLocation(p.getRect().x,500);
             }
-            if(p.getRect().x > 745) {
+            else if(p.getRect().x > 745) {
                 mapDecider+=14;
                 p.getRect().setLocation(40,p.getRect().y);
             }
@@ -491,13 +504,44 @@ public class Environment {
                 mapDecider--;
                 p.getRect().setLocation(740,p.getRect().y);
             }
+            if(p.getRect().y < 290 && (p.getRect().x > 275 && p.getRect().x < 340)) {
+                mapDecider+=19;
+                p.getRect().setLocation(378,480);
+            }
 
+        }
+        if(mapDecider == 32) {
+            if(p.getRect().y > 480 && (p.getRect().x > 366 && p.getRect().x < 444 )) {
+                mapDecider-=19;
+                p.getRect().setLocation(310,290);
+            }
+            if(p.getRect().x < 90 && (p.getRect().y > 265 && p.getRect().y <315) ) {
+                mapDecider++;
+                p.getRect().setLocation(662,293);
+            }
+            if((p.getRect().x > 340 && p.getRect().x < 420) && p.getRect().y < 90) {
+                mapDecider+=2;
+                p.getRect().setLocation(p.getRect().x,500);
+            }
+        }
+        if(mapDecider == 33) {
+            if(p.getRect().x > 677 && (p.getRect().y > 270 && p.getRect().y < 345)) {
+                mapDecider--;
+                p.getRect().setLocation(99,293);
+            }
+        }
+        if(mapDecider == 34) {
+            if((p.getRect().x > 340 && p.getRect().x < 420) && p.getRect().y > 500) {
+                mapDecider-=2;
+                p.getRect().setLocation(p.getRect().x,90);
+            }
         }
     }
     private void boundary(Graphics g) {
 
         g.setColor(Color.BLUE);
-        System.out.println(r.getPixelColor(p.getRect().x,p.getRect().y));
+        //System.out.println(r.getPixelColor(p.getRect().x,p.getRect().y));
+        System.out.println("(" + p.getRect().x + " , " + p.getRect().y + ")");
         int red = 0, green = 0, blue = 0;
         int skip = 10;
 
@@ -607,6 +651,7 @@ public class Environment {
                 if (onGreen) {
                     p.getRect().translate(10, 0);
                     System.out.println("You are on Green");
+
                 }
             }
         }
@@ -617,7 +662,7 @@ public class Environment {
     private boolean whichColor( int r, int g, int b, Graphics gt) {
         boolean onBoundary = false;
         // Only block green
-        if(mapDecider == 0 || mapDecider == 8 || mapDecider == 9 || mapDecider == 15 || mapDecider == 16) {
+        if(mapDecider == 0 || mapDecider == 8 || mapDecider == 9 || mapDecider == 16) {
             if (g > 80 && r + b < g) {
                 onBoundary = true;
             }
@@ -632,12 +677,32 @@ public class Environment {
             }
         }
         // Block any color other than almost white
-        if(mapDecider == 2 || mapDecider == 3 || mapDecider == 4 || mapDecider == 5 || mapDecider == 6 || mapDecider == 7|| mapDecider == 10 || mapDecider == 11 || mapDecider == 13 || mapDecider == 17 || mapDecider == 19 || mapDecider == 20 || mapDecider == 21 || mapDecider == 22 || mapDecider == 23 || mapDecider == 24 || mapDecider == 25 || mapDecider == 26 || mapDecider == 27 || mapDecider == 29 || mapDecider == 30 || mapDecider == 31) {
+        if(mapDecider == 2 || mapDecider == 3 || mapDecider == 4 || mapDecider == 5 || mapDecider == 15 || mapDecider == 6 || mapDecider == 7|| mapDecider == 10 || mapDecider == 11 || mapDecider == 13 || mapDecider == 17 || mapDecider == 19 || mapDecider == 20 || mapDecider == 21 || mapDecider == 22 || mapDecider == 23 || mapDecider == 24 || mapDecider == 25 || mapDecider == 26 || mapDecider == 27 || mapDecider == 29 || mapDecider == 30 || mapDecider == 31 || mapDecider == 28) {
             if(g < 100 || b < 100 || r < 100) {
                 onBoundary = true;
             }
         }
-        // Work on one for mapdecider == 28
+        if(mapDecider == 32) {
+            if (b > 100) {
+                onBoundary = true;
+            }
+            if (!p.getRect().intersects(110, 110, 545, 362)) {
+            onBoundary = true;
+            }
+        }
+        if(mapDecider == 33) {
+
+                if (!p.getRect().intersects(130, 130, 545, 362)) {
+                    if (!p.getRect().intersects(672, 233, 20, 100)) {
+                    onBoundary = true;
+                }
+            }
+        }
+        if(mapDecider == 34) {
+            if (!p.getRect().intersects(130, 130, 545, 382)) {
+                onBoundary = true;
+            }
+        }
         if(mapDecider == 12) {
             if(b < 100) {
                 onBoundary = true;
