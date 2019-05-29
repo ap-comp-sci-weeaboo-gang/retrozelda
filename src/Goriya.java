@@ -7,31 +7,21 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Octorok extends Character  {
+public class Goriya extends Character  {
 	private static BufferedImage spriteSheet;
 	private String direction = "down";
 	private int clicks = 0;
-	private Projectile shot;
-	private boolean able = true;
+	private Boomerang boom;
 	private String choice;
 	private int count = 0;
-	private int moveChoice;
-	private int loop;
+	private boolean moving;
+	private int facing;
+	private int moves;
 
-	public Octorok(int x, int y, int c) {
-		super(getImage(60,0,20,20), getImage(90,0,20,20), getImage(0,0,20,20), getImage(30,0,20,20), 
-				getImage(60,30,20,20), getImage(90,30,20,20), getImage(0,30,20,20), getImage(30,30,20,20),x, y, 50, 50);
-		moveChoice = c;
-		shot = new Projectile((int)(getRect().getX()), (int)(getRect().getY()), 30, 30, "enemies.png", 330, 0, 15, 15);
-	}
-	
-	public Octorok(int x, int y, int c, int l) {
-		super(getImage(60,0,20,20), getImage(90,0,20,20), getImage(0,0,20,20), getImage(30,0,20,20), 
-				getImage(60,30,20,20), getImage(90,30,20,20), getImage(0,30,20,20), getImage(30,30,20,20),x, y, 50, 50);
-		shot = new Projectile((int)(getRect().getX()), (int)(getRect().getY()), 30, 30, "enemies.png", 330, 0, 15, 15);
-		moveChoice = c;
-		loop = l;
-		
+	public Goriya(int x, int y) {
+		super(getImage(60,60,20,20), getImage(90,60,20,20), getImage(0,60,20,20), getImage(30,60,20,20), 
+				getImage(60,90,20,20), getImage(90,90,20,20), getImage(0,90,20,20), getImage(30,90,20,20),x, y, 50, 50);
+		boom = new Boomerang((int)(getRect().getX()), (int)(getRect().getY()), 40, 40);
 	}
 	
 	private static Image getImage(int x, int y, int w, int h) {
@@ -69,129 +59,113 @@ public class Octorok extends Character  {
 			else 
 				g.drawImage(getLeftImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
 		}
-		shot.draw(g, getRect());
+		boom.draw(g, getRect());
 	}
 	
 	public void keyHit(String s) {
-		if (s.equals("left")) {
+		if (s.equals("left")&& this.getRect().getX()-10 >= 110) {
 			getRect().translate(-10, 0);
 			direction = "left";
 			clicks++;
 		}
-		else if (s.equals("right")) {
+		else if (s.equals("right") && this.getRect().getX()+10 <= 799-(getRect().getWidth()*2)) {
 			this.getRect().translate(10, 0);
 			direction = "right";
 			clicks++;
 		}
-		else if (s.equals("up")) {
+		else if (s.equals("up") && this.getRect().getY()-10 >= 112) {
 			this.getRect().translate(0, -10);
 			direction = "up";
 			clicks++;
 		}
-		else if (s.equals("down")) {
+		else if (s.equals("down") && this.getRect().getY()+10 <= 599-getRect().getHeight()) {
 			this.getRect().translate(0, 10);
 			direction = "down";
 			clicks++;
+		}
+		else {
+			moving = false;
 		}
 	}
 	
 	@Override 
 	public void movePattern(Player p) {
-		if (moveChoice == 0) {
-			if (loop < 3) {
-				if (count < 12) {
-					keyHit("up");
-					count++;
-				}
-				else {
-					direction = "left";
-					shoot(p);
-					if (shot.getVisible() == false) {
-						count = 0;
-						loop++;
-					}
-				}
-			}
-			else if (loop >= 3 && loop < 6) {
-				if (count < 12) {
-					keyHit("down");
-					count++;
-				}
-				else {
-					direction = "left";
-					shoot(p);
-					if (shot.getVisible() == false) {
-						count = 0;
-						loop++;
-					}
-				}
-			}
-			else if (loop == 6) {
-				loop = 0;
-			}
+		if (moving == false) {
+			count = 0;
+			facing = (int)(Math.random()*4);
+			moves = (int)((Math.random())*10)+10;
+			System.out.println(moves);
+			moving = true;
 		}
-		else if (moveChoice == 1) {
-			if (loop < 3) {
-				if (count < 12) {
-					keyHit("down");
-					count++;
-				}
-				else {
-					direction = "right";
-					shoot(p);
-					if (shot.getVisible() == false) {
-						count = 0;
-						loop++;
-					}
-				}
-			}
-			else if (loop >= 3 && loop < 6) {
-				if (count < 12) {
+		if (moving == true) {
+			if (facing == 0) {
+				if (count < moves) {
 					keyHit("up");
-					count++;
 				}
 				else {
-					direction = "right";
-					shoot(p);
-					if (shot.getVisible() == false) {
-						count = 0;
-						loop++;
-					}
+					moving = false;
 				}
 			}
-			else if (loop == 6) {
-				loop = 0;
+			else if (facing == 1) {
+				if (count < moves) {
+					keyHit("right");
+				}
+				else {
+					moving = false;
+				}
 			}
+			else if (facing == 2) {
+				if (count < moves) {
+					keyHit("down");
+				}
+				else {
+					moving = false;
+				}
+			}
+			else if (facing == 3) {
+				if (count < moves) {
+					keyHit("left");
+				}
+				else {
+					moving = false;
+				}
+			}
+			count++;
+			toss();
 		}
 	}
 	
-	public void shoot(Player p) {
-		if (shot.getVisible() == false) {
-			shot.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
+	private void toss() {
+		if (boom.getVisible() == false) {
+			boom.setLoc((int)(this.getRect().getX()),(int) (this.getRect().getY()));
 			if (direction.equals("down")) {
 				choice = "down";
-				shot.move(choice, getRect());
+				boom.move("choice", getRect());
 			}
 			else if (direction.equals("up")) {
 				choice = "up";
-				shot.move(choice, getRect());
+				boom.move(choice, getRect());
 			}
 			else if (direction.equals("left")) {
 				choice = "left";
-				shot.move(choice, getRect());
+				boom.move(choice, getRect());
 			}
 			else if (direction.equals("right")) {
 				choice = "right";
-				shot.move(choice, getRect());
+				boom.move(choice, getRect());
 			}
 		}
-		else if (shot.getVisible() == true) {
-			shot.move(choice, getRect());
+		else if (boom.getVisible() == true) {
+			boom.move(choice, getRect());
 		}
+		if (boom.getVisible() == false && boom.getBack() == true) {
+			boom.setBack(false);
+		}
+		
 	}
 	
-	public Projectile getShot() {
-		return this.shot;
+	public Boomerang getBoom() {
+		return this.boom;
 	}
 }
 	

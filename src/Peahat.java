@@ -7,18 +7,20 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
-public class Tektite extends Character {
+public class Peahat extends Character {
 	private static BufferedImage spriteSheet;
 	private String direction = "down";
 	private boolean moving = false;
 	private int goalX, goalY;
-	int t;
-	int startX; 
-	int startY; 
-	int clicks;
+	private int t;
+	private int startX; 
+	private int startY; 
+	private int clicks;
+	private boolean flying = false;
+	private int loop;
 
-	public Tektite(int x, int y, int start) {
-		super(null, null, getImage(240,180,20,20), null, null, null, getImage(240,210,20,20), null,x, y, 50, 50);
+	public Peahat(int x, int y, int start) {
+		super(null, null, getImage(330,270,20,20), null, null, null, getImage(360,270,20,20), null,x, y, 50, 50);
 		t = start;
 	}
 	
@@ -33,8 +35,8 @@ public class Tektite extends Character {
 
 	@Override
 	public void draw(Graphics g) {
-		if (moving == true)	
-			g.drawImage(getDownMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
+		if (flying == false)	
+			g.drawImage(getDownImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
 		else {
 			if (clicks %2 == 0) 
 				g.drawImage(getDownMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getWidth()), null);
@@ -62,11 +64,16 @@ public class Tektite extends Character {
 	@Override
 	public void movePattern(Player p) {
 		if (moving == false) { 
-			if (clicks > 5) {
+			if (loop == 4) {
+				flying = false;
+				loop = 0;
+			}
+			if (flying == true) {
+				clicks = 0;
 				startX = (int) this.getRect().getX();
 				startY = (int) this.getRect().getY();
-				goalX = (int)(Math.random()*150);
-				goalY = (int)(Math.random()*100);
+				goalX = (int)(Math.random()*250);
+				goalY = (int)(Math.random()*200);
 				if (t == 0) {
 				}
 				else if (t == 1) {
@@ -80,6 +87,10 @@ public class Tektite extends Character {
 					goalX = goalX * -1;
 				}
 				moving = true;
+				loop++;
+			}
+			else if (clicks > 10) {
+				flying = true;
 			}
 			clicks++;
 		}
@@ -131,7 +142,7 @@ public class Tektite extends Character {
 		}
 	}
 	
-	public boolean getMoving() {
-		return this.moving;
+	public boolean getFlying() {
+		return this.flying;
 	}
 }
