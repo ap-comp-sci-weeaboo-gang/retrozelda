@@ -302,7 +302,7 @@ public class ZeldaRunner {
 		enemies.get(33).add(new Goriya(450, 400));
 		enemies.get(33).add(new Goriya(500, 170));
 		
-		enemies.get(34).add(new Dodongo(350, 170));
+		enemies.get(34).add(new Dodongo(200, 170));
 		
 		enemies.get(35).add(new Octorok(100, 117, 1));
 		enemies.get(35).add(new Octorok(657, 117, 0, 3));
@@ -330,7 +330,9 @@ public class ZeldaRunner {
 						|| (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Moblin.class) &&
 								((Moblin) enemies.get(envo.getMapDecider()).get(i)).getShot().getArea().intersects(link.getRect()))
 						|| (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Goriya.class) &&
-								((Goriya) enemies.get(envo.getMapDecider()).get(i)).getBoom().getArea().intersects(link.getRect()))){
+								((Goriya) enemies.get(envo.getMapDecider()).get(i)).getBoom().getArea().intersects(link.getRect()))
+						|| (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Gohma.class) &&
+							((Gohma) enemies.get(envo.getMapDecider()).get(i)).getShot().getArea().intersects(link.getRect()))) {
 					link.subtractHearts();
 					save = time;
 				}
@@ -341,9 +343,11 @@ public class ZeldaRunner {
 
 	protected void attack() {
 		ticks++;
-		if (ticks - save1 == 10) {
-			((Dodongo) enemies.get(34).get(0)).setStunned(false);
-			((Gohma) enemies.get(36).get(0)).setStunned(false);
+		if (ticks - save1 >= 4) {
+			if (!enemies.get(34).isEmpty())
+				((Dodongo) enemies.get(34).get(0)).setStunned(false);
+			if (!enemies.get(36).isEmpty()) 
+				((Gohma) enemies.get(36).get(0)).setStunned(false);
 		}
 		attackCheck();
 		link.falseSpace();
@@ -354,7 +358,7 @@ public class ZeldaRunner {
 
 	protected void updateGame() {
 		for (int r=0;r<drops.size();r++) {
-			System.out.println(link.getRupee());
+			//System.out.println(link.getRupee());
 			if (drops.get(r).equals("potion")&&link.getRect().intersects(new Rectangle(itemX.get(r),itemY.get(r),25,15))) {
 				drops.remove(r);
 				itemX.remove(r);
@@ -486,10 +490,10 @@ public class ZeldaRunner {
 	private void attackCheck() {
 		for(int i = 0; i < enemies.get(envo.getMapDecider()).size(); i++) {
 			if (link.getSword() == true && link.getSwordRect().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect()) && link.getSpace() == true) {
-				if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
-						&& envo.getMapDecider() != 34 && envo.getMapDecider() != 36) {
+				if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)) {
 					if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
-							&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+							&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))
+							&& envo.getMapDecider() != 34 && envo.getMapDecider() != 36) {
 						((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
 						enemyDeath=true;
 						chance =(int)(Math.random()*20);
@@ -509,10 +513,10 @@ public class ZeldaRunner {
 			}
 			else if (link.getBow() == true && link.getInitialSpace() == true) {
 				if (link.getUpArrow().getVisible() == true && link.getUpArrow().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
-					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class) 
-							&& envo.getMapDecider() != 34) {
+					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)) {
 						if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
-								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying())) 
+								&& envo.getMapDecider() != 34 && envo.getMapDecider() != 36) {
 							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
 							enemyDeath=true;
 							chance =(int)(Math.random()*20);
@@ -531,13 +535,10 @@ public class ZeldaRunner {
 						else if (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Gohma.class) 
 								&& ((Gohma) enemies.get(envo.getMapDecider()).get(i)).getEyeOpen() == true
 								&& ((Gohma) enemies.get(envo.getMapDecider()).get(i)).getStunned() == false){
-
-							System.out.println(((Gohma) enemies.get(envo.getMapDecider()).get(i)).getHealth());
 								((Gohma) enemies.get(envo.getMapDecider()).get(i)).lowerHealth();
 								save1 = ticks;
 								((Gohma) enemies.get(envo.getMapDecider()).get(i)).setStunned(true);
-								//if (((Gohma) enemies.get(envo.getMapDecider()).get(i)).getHealth() == 0){
-								if (((Gohma) enemies.get(envo.getMapDecider()).get(i)).alive() == false) {
+								if (((Gohma) enemies.get(envo.getMapDecider()).get(i)).getHealth() == 0){
 									((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
 									enemyDeath=true;
 									chance =(int)(Math.random()*20);
@@ -558,10 +559,10 @@ public class ZeldaRunner {
 					}
 				}
 				else if (link.getRightArrow().getVisible() == true && link.getRightArrow().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
-					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
-							&& envo.getMapDecider() != 34) {
+					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)) {
 						if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
-								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))
+								&& envo.getMapDecider() != 34 && envo.getMapDecider() != 36) {
 							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
 							enemyDeath=true;
 							chance =(int)(Math.random()*20);
@@ -603,10 +604,10 @@ public class ZeldaRunner {
 					}
 				}
 				else if (link.getDownArrow().getVisible() == true && link.getDownArrow().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
-					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
-							&& envo.getMapDecider() != 34) {
+					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)) {
 						if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
-								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))
+								&& envo.getMapDecider() != 34 && envo.getMapDecider() != 36) {
 							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
 							enemyDeath=true;
 							chance =(int)(Math.random()*20);
@@ -648,10 +649,10 @@ public class ZeldaRunner {
 					}
 				}
 				else if (link.getLeftArrow().getVisible() == true && link.getLeftArrow().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
-					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
-							&& envo.getMapDecider() != 34) {
+					if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)) {
 						if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
-								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+								&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))
+								&& envo.getMapDecider() != 34 && envo.getMapDecider() != 36) {
 							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
 							enemyDeath=true;
 							chance =(int)(Math.random()*20);
@@ -692,11 +693,12 @@ public class ZeldaRunner {
 						}
 					}
 				}
-			else if (link.getBoomerang() == true && link.getBoom().getVisible() == true && link.getBoom().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
-				if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)
-						&& !enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class)) {
+			else if (link.getBoomerang() == true && link.getBoom().getVisible() == true 
+					&& link.getBoom().getArea().intersects(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect())) {
+				if (!enemies.get(envo.getMapDecider()).get(i).getClass().equals(OldMan.class)) {
 					if (!(enemies.get(envo.getMapDecider()).get(i).getClass().equals(Peahat.class)
-							&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))) {
+							&& (((Peahat) enemies.get(envo.getMapDecider()).get(i)).getFlying()))
+							&& envo.getMapDecider() != 34 && envo.getMapDecider() != 36) {
 						((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
 						enemyDeath=true;
 						chance =(int)(Math.random()*20);
@@ -712,27 +714,27 @@ public class ZeldaRunner {
 						itemY.add((int)((Character) enemies.get(envo.getMapDecider()).get(i)).getRect().getY());
 						enemies.get(envo.getMapDecider()).remove(i);
 					}
-				}
-				else if (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class) 
-						&& ((Dodongo) enemies.get(envo.getMapDecider()).get(i)).getStunned() == false){
-						((Dodongo) enemies.get(envo.getMapDecider()).get(i)).lowerHealth();
-						save1 = ticks;
-						((Dodongo) enemies.get(envo.getMapDecider()).get(i)).setStunned(true);
-					if (((Dodongo) enemies.get(envo.getMapDecider()).get(i)).getHealth() == 0){
-						((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
-						enemyDeath=true;
-						chance =(int)(Math.random()*20);
-						if (chance<=2) {
-							drops.add("potion");
+					else if (enemies.get(envo.getMapDecider()).get(i).getClass().equals(Dodongo.class) 
+							&& ((Dodongo) enemies.get(envo.getMapDecider()).get(i)).getStunned() == false){
+							((Dodongo) enemies.get(envo.getMapDecider()).get(i)).lowerHealth();
+							save1 = ticks;
+							((Dodongo) enemies.get(envo.getMapDecider()).get(i)).setStunned(true);
+						if (((Dodongo) enemies.get(envo.getMapDecider()).get(i)).getHealth() == 0){
+							((Character) enemies.get(envo.getMapDecider()).get(i)).setDead(false);
+							enemyDeath=true;
+							chance =(int)(Math.random()*20);
+							if (chance<=2) {
+								drops.add("potion");
+							}
+							else if (chance>2&&chance<=5) {
+								drops.add("hearts");
+							}else {
+								drops.add("rupees");
+							}
+							itemX.add((int)(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect().getX()));
+							itemY.add((int)((Character) enemies.get(envo.getMapDecider()).get(i)).getRect().getY());
+							enemies.get(envo.getMapDecider()).remove(i);
 						}
-						else if (chance>2&&chance<=5) {
-							drops.add("hearts");
-						}else {
-							drops.add("rupees");
-						}
-						itemX.add((int)(((Character) enemies.get(envo.getMapDecider()).get(i)).getRect().getX()));
-						itemY.add((int)((Character) enemies.get(envo.getMapDecider()).get(i)).getRect().getY());
-						enemies.get(envo.getMapDecider()).remove(i);
 					}
 				}
 			}
@@ -740,7 +742,7 @@ public class ZeldaRunner {
 	}
 
 	protected void drawAll(Graphics g) {
-		/*if (link.alive() == false) {
+		if (link.alive() == false) {
 			Image img = null;
 			try {
 				img = ImageIO.read(new File(("inventory.jpg")));
@@ -753,7 +755,6 @@ public class ZeldaRunner {
 			g.setColor(Color.WHITE);
 			g.drawString("GAME OVER", 300, 150);	
 		}
-		*/
 		//34 is main boss, 36 is mini boss
 		if (enemies.get(34).isEmpty() == true && enemies.get(36).isEmpty() == true) {
 			Image img = null;
@@ -762,11 +763,10 @@ public class ZeldaRunner {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			alive = false;
 			g.drawImage(img, 0, 0, 800, 600, null);
 			g.setFont(new Font("TimesRoman", Font.BOLD, 35));
 			g.setColor(Color.WHITE);
-			g.drawString("VICTORY! YOU HAVE WON THE GAME", 200, 150);
+			g.drawString("VICTORY! YOU HAVE WON THE GAME", 100, 150);
 		}
 		else {
 			envo.draw(g);

@@ -80,22 +80,22 @@ public class Dodongo extends Character  {
 	}
 	
 	public void keyHit(String s) {
-		if (s.equals("left")&& this.getRect().getX()-10 >= 1) {
+		if (s.equals("left")&& this.getRect().getX()-10 >= 100) {
 			getRect().translate(-10, 0);
 			direction = "left";
 			clicks++;
 		}
-		else if (s.equals("right") && this.getRect().getX()+10 <= 799-(getRect().getWidth()*2)) {
+		else if (s.equals("right") && this.getRect().getX()+10 <= 700-(getRect().getWidth()*2)) {
 			this.getRect().translate(10, 0);
 			direction = "right";
 			clicks++;
 		}
-		else if (s.equals("up") && this.getRect().getY()-10 >= 1) {
+		else if (s.equals("up") && this.getRect().getY()-10 >= 110) {
 			this.getRect().translate(0, -10);
 			direction = "up";
 			clicks++;
 		}
-		else if (s.equals("down") && this.getRect().getY()+10 <= 599-getRect().getHeight()) {
+		else if (s.equals("down") && this.getRect().getY()+10 <= 520-getRect().getHeight()) {
 			this.getRect().translate(0, 10);
 			direction = "down";
 			clicks++;
@@ -111,7 +111,7 @@ public class Dodongo extends Character  {
 			count = 0;
 			facing = (int)(Math.random()*4);
 			moves = (int)((Math.random())*10)+10;
-			System.out.println(moves);
+			//System.out.println(moves);
 			moving = true;
 		}
 		if (moving == true) {
@@ -119,11 +119,9 @@ public class Dodongo extends Character  {
 					&& p.getRect().getY() < this.getRect().getY()) {
 				keyHit("up");
 				keyHit("up");
-				keyHit("up");
 			}
 			else if (p.getRect().getX() >= this.getRect().getX()-5 && p.getRect().getX() <= this.getRect().getX()+5 
 					&& p.getRect().getY() > this.getRect().getY()) {
-				keyHit("down");
 				keyHit("down");
 				keyHit("down");
 			}
@@ -131,11 +129,9 @@ public class Dodongo extends Character  {
 					&& p.getRect().getX() > this.getRect().getX()) {
 				keyHit("right");
 				keyHit("right");
-				keyHit("right");
 			}
 			else if (p.getRect().getY() >= this.getRect().getY()-5 && p.getRect().getY() <= this.getRect().getY()+5
 					&& p.getRect().getX() < this.getRect().getX()) {
-				keyHit("left");
 				keyHit("left");
 				keyHit("left");
 			}
@@ -176,7 +172,7 @@ public class Dodongo extends Character  {
 	}
 	
 	public void lowerHealth() {
-		if (health > 0) {
+		if (health > 0 && stunned == false) {
 			health--;
 			stunned = true;
 		}

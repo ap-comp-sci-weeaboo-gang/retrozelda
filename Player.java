@@ -37,7 +37,7 @@ public class Player extends Character {
 	private Boomerang boom;
 	private String choice;
 	private boolean invincible;
-	private int rupee=0;
+	private int rupee=10;
 	private Image rupeeImg;
 	boolean havePotion=false;
 	//max=30

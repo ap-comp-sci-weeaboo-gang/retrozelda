@@ -16,6 +16,8 @@ public class Gohma extends Character  {
 	private Image open;
 	private Image openMove;
 	private Projectile shot;
+	private boolean eyeOpen = false;
+	private boolean stunned = false;
 
 	public Gohma(int x, int y) {
 		super(null, null, getImage(175,88,56,22), null, 
@@ -37,6 +39,7 @@ public class Gohma extends Character  {
 	@Override
 	public void draw(Graphics g) {
 		if (count < 30) {
+			eyeOpen = false;
 			if (clicks%2 ==0)	
 				g.drawImage(getDownMoveImg(),(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getHeight()), null);
 			else 
@@ -44,6 +47,7 @@ public class Gohma extends Character  {
 			count++;
 		}
 		else if (count >= 30 && count < 60) {
+			eyeOpen = true;
 			if (clicks%2 ==0)	
 				g.drawImage(open,(int)(getRect().getX()),(int)(getRect().getY()),(int)(getRect().getWidth()),(int)(getRect().getHeight()), null);
 			else 
@@ -73,20 +77,22 @@ public class Gohma extends Character  {
 	
 	@Override 
 	public void movePattern(Player p) {
-		if (loop < 30) {
-			this.keyHit("left");
-			loop++;
-		}
-		else if (loop >= 30 && loop < 90) {
-			this.keyHit("right");
-			loop++;
-		}
-		else if (loop >= 90 && loop < 120) {
-			this.keyHit("left");
-			loop++;
-		}
-		else {
-			loop = 0;
+		if (stunned == false) {
+			if (loop < 30) {
+				this.keyHit("left");
+				loop++;
+			}
+			else if (loop >= 30 && loop < 90) {
+				this.keyHit("right");
+				loop++;
+			}
+			else if (loop >= 90 && loop < 120) {
+				this.keyHit("left");
+				loop++;
+			}
+			else {
+				loop = 0;
+			}
 		}
 		shoot();
 	}
@@ -102,13 +108,23 @@ public class Gohma extends Character  {
 	}
 	
 	public void lowerHealth() {
-		if (health > 0) {
+		if (health > 0 && stunned == false && eyeOpen == true) {
 			health--;
+			stunned = true;
+			System.out.println(health);
 		}
 	}
 	
 	public int getHealth() {
 		return this.health;
+	}
+	
+	public void setStunned(boolean b) {
+		stunned = b;
+	}
+
+	public boolean getStunned() {
+		return this.stunned;
 	}
 	
 	public boolean alive() {
@@ -118,5 +134,17 @@ public class Gohma extends Character  {
 		else {
 			return true;
 		}
+	}
+	
+	public boolean getEyeOpen() {
+		return this.eyeOpen;
+	}
+	
+	public void closeEye() {
+		eyeOpen = false;
+	}
+	
+	public Projectile getShot() {
+		return this.shot;
 	}
 }
