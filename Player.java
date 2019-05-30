@@ -15,11 +15,12 @@ public class Player extends Character {
 	private Image rightSword;
 	private Image downSword;
 	private Image leftSword;
-	private boolean collected = false;
+	private boolean collected = true;
 	private boolean space = false;
 	private boolean sword = false;
 	private boolean bow = false;
 	private boolean boomerang = false;
+	private boolean potion = false;
 	private String weapon;
 	private Rectangle swordRect;
 	private Image upAttack;
@@ -36,7 +37,10 @@ public class Player extends Character {
 	private Boomerang boom;
 	private String choice;
 	private boolean invincible;
-	private boolean doneMove = true;
+	private int rupee=0;
+	private Image rupeeImg;
+	boolean havePotion=false;
+	//max=30
 
 	public Player() {
 		super(getImage(60,0,15,15), getImage(90,30,15,15), getImage(0,0,15,15), getImage(30,0,15,15), 
@@ -45,6 +49,12 @@ public class Player extends Character {
 		rightSword = getImage(82,90,30,15);
 		downSword = getImage(0,82,15,30);
 		leftSword = getImage(22,90,30,15);
+		try {
+			hearts=ImageIO.read(new File("heart.png"));
+			rupeeImg=ImageIO.read(new File("rupees.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		swordRect = new Rectangle((int)(getRect().getX()+getRect().getWidth()*0.3), (int)(getRect().getX()+getRect().getWidth()), (int)(getRect().getWidth())/2, (int)(getRect().getWidth()-getRect().getWidth()*0.06));
 		upAttack = getImage(60,60,15,15);
 		rightAttack = getImage(90,60,15,15);
@@ -150,6 +160,10 @@ public class Player extends Character {
 		for (int currHealth = 0; currHealth < health; currHealth++) {
 			g.drawImage(hearts, currHealth*25, 0, 50, 30, null);
 		}
+		g.drawImage(rupeeImg,0, 30, 50, 30, null);
+		g.setFont(new Font("TimesRoman", Font.BOLD, 35));
+		g.setColor(Color.WHITE);
+		g.drawString("="+rupee,40,60);
 	}
 	
 	private void toss() {
@@ -188,6 +202,10 @@ public class Player extends Character {
 		}
 	}
 	
+	public void getPotion() {
+		havePotion=true;
+	}
+	
 	public void subtractHearts() {
 		if (health > 0 && invincible == false) {
 			health--;
@@ -195,49 +213,61 @@ public class Player extends Character {
 		}
 	}
 	
+	public void addRupee() {
+		rupee++;
+	}
+
+	public void minusRupee() {
+		rupee--;
+	}
+
+	public int getRupee() {
+		return rupee;
+	}
+	
 	public void keyHit(String s) {
-		//if (doneMove == true) {
-			doneMove = false;
-			if (s.equals("left") && this.getRect().getX()-10 >= 1) {
-				getRect().translate(-15, 0);
-				direction = "left";
-				clicks++;
-			}
-			else if (s.equals("right") && this.getRect().getX()+10 <= 799-(getRect().getWidth())) {
-				this.getRect().translate(15, 0);
-				direction = "right";
-				clicks++;
-			}
-			else if (s.equals("up") && this.getRect().getY()-10 >= 1) {
-				this.getRect().translate(0, -15);
-				direction = "up";
-				clicks++;
-			}
-			else if (s.equals("down") && this.getRect().getY()+10 <= 599-getRect().getHeight()) {
-				this.getRect().translate(0, 15);
-				direction = "down";
-				clicks++;
-			}
-			if (s.equals("space")) {
-				space = true;
-				if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false && (bow == true || boomerang == true)) {
-					initialSpace = true;
-				}
-			}
-		//}
-		//if (doneMove == false) {
-		//	doneMove = true; 
-		//}
+		if (s.equals("left") && this.getRect().getX()-5 >= 1) {
+			getRect().translate(-15, 0);
+			direction = "left";
+			clicks++;
+		}
+		else if (s.equals("right") && this.getRect().getX()+5 <= 799-(getRect().getWidth())) {
+			this.getRect().translate(15, 0);
+			direction = "right";
+			clicks++;
+		}
+		else if (s.equals("up") && this.getRect().getY()-5 >= 1) {
+			this.getRect().translate(0, -15);
+			direction = "up";
+			clicks++;
+		}
+		else if (s.equals("down") && this.getRect().getY()+5 <= 599-getRect().getHeight()) {
+			this.getRect().translate(0, 15);
+			direction = "down";
+			clicks++;
+		}
 		if (s.equals("space")) {
 			space = true;
 			if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false && (bow == true || boomerang == true)) {
 				initialSpace = true;
 			}
 		}
+		if (s.equals("space")) {
+			space = true;
+			if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false && (bow == true || boomerang == true)) {
+				initialSpace = true;
+			}
+			if (potion == true && havePotion == true) {
+				havePotion = false;
+				addHearts();
+				addHearts();
+				addHearts();
+			}
+		}
 	}
 	
 	public void shoot() {
-		if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false) {
+		if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false && rupee > 0) {
 			upArrow.setLoc((int)(this.getRect().getX())+20,(int) (this.getRect().getY())+20);
 			rightArrow.setLoc((int)(this.getRect().getX())+20,(int) (this.getRect().getY())+20);
 			downArrow.setLoc((int)(this.getRect().getX())+20,(int) (this.getRect().getY())+20);
@@ -254,6 +284,7 @@ public class Player extends Character {
 			else if (direction.equals("right")) {
 				rightArrow.move("right", getRect());
 			}
+			minusRupee();
 		}
 		else if (upArrow.getVisible() == true) {
 			upArrow.move("up", getRect());
@@ -297,16 +328,25 @@ public class Player extends Character {
 			sword = true;
 			bow = false;
 			boomerang = false;
+			potion = false;
 		}
 		else if (num == 1) {
 			bow = true;
 			sword = false;
 			boomerang = false;
+			potion = false;
 		}
 		else if (num == 2) {
 			boomerang = true;
 			sword = false;
 			bow = false;
+			potion = false;
+		}
+		else if (num == 3) {
+			boomerang = false;
+			sword = false;
+			bow = false;
+			potion = true;
 		}
 		else if (num == 3) {
 		}
@@ -347,6 +387,14 @@ public class Player extends Character {
 	}
 	public void setInvincible(boolean b) {
 		this.invincible = b;
+	}
+	public boolean alive() {
+		if (this.health == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
 }

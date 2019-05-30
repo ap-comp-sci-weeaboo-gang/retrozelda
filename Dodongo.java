@@ -23,6 +23,7 @@ public class Dodongo extends Character  {
 	private int moves;
 	private boolean moving = false;
 	private int health = 3;
+	
 
 	public Dodongo(int x, int y) {
 		super(getImage(60,90,20,20), getImage(83,90,35,20), getImage(0,90,20,20), getImage(23,90,35,20), 
@@ -191,6 +192,15 @@ public class Dodongo extends Character  {
 
 	public boolean getStunned() {
 		return this.stunned;
+	}
+	
+	public boolean alive() {
+		if (health == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 }
 	
