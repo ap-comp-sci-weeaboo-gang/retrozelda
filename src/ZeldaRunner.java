@@ -98,6 +98,15 @@ public class ZeldaRunner {
 			}
 		});
 		enemy.start();
+		player = new Timer(200, new ActionListener() {		
+			@Override		
+			public void actionPerformed(ActionEvent arg0) {		
+				if (moveable == false)		
+					moveable = true;		
+				panel.repaint();		
+			}		
+		});		
+		player.start();
 	}
 
 	//@SuppressWarnings("unchecked")
@@ -420,7 +429,10 @@ public class ZeldaRunner {
 			inv.itemMoveLeft();
 		}
 		if (inv.getInventoryCondition()==false) {
-			link.keyHit(s);
+			if (moveable == true) {	
+				moveable = false;		
+				link.keyHit(s);		
+			}
 			if (s.equals("space")) {
 				attack.start();
 			}//if inv is on change playerselected
