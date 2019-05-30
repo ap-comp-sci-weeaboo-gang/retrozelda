@@ -36,6 +36,7 @@ public class Player extends Character {
 	private Boomerang boom;
 	private String choice;
 	private boolean invincible;
+	private boolean doneMove = true;
 
 	public Player() {
 		super(getImage(60,0,15,15), getImage(90,30,15,15), getImage(0,0,15,15), getImage(30,0,15,15), 
@@ -195,27 +196,39 @@ public class Player extends Character {
 	}
 	
 	public void keyHit(String s) {
-		if (s.equals("left") && this.getRect().getX()-10 >= 1) {
-			getRect().translate(-15, 0);
-			direction = "left";
-			clicks++;
-		}
-		else if (s.equals("right") && this.getRect().getX()+10 <= 799-(getRect().getWidth())) {
-			this.getRect().translate(15, 0);
-			direction = "right";
-			clicks++;
-		}
-		else if (s.equals("up") && this.getRect().getY()-10 >= 1) {
-			this.getRect().translate(0, -15);
-			direction = "up";
-			clicks++;
-		}
-		else if (s.equals("down") && this.getRect().getY()+10 <= 599-getRect().getHeight()) {
-			this.getRect().translate(0, 15);
-			direction = "down";
-			clicks++;
-		}
-		else if (s.equals("space")) {
+		//if (doneMove == true) {
+			doneMove = false;
+			if (s.equals("left") && this.getRect().getX()-10 >= 1) {
+				getRect().translate(-15, 0);
+				direction = "left";
+				clicks++;
+			}
+			else if (s.equals("right") && this.getRect().getX()+10 <= 799-(getRect().getWidth())) {
+				this.getRect().translate(15, 0);
+				direction = "right";
+				clicks++;
+			}
+			else if (s.equals("up") && this.getRect().getY()-10 >= 1) {
+				this.getRect().translate(0, -15);
+				direction = "up";
+				clicks++;
+			}
+			else if (s.equals("down") && this.getRect().getY()+10 <= 599-getRect().getHeight()) {
+				this.getRect().translate(0, 15);
+				direction = "down";
+				clicks++;
+			}
+			if (s.equals("space")) {
+				space = true;
+				if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false && (bow == true || boomerang == true)) {
+					initialSpace = true;
+				}
+			}
+		//}
+		//if (doneMove == false) {
+		//	doneMove = true; 
+		//}
+		if (s.equals("space")) {
 			space = true;
 			if (upArrow.getVisible() == false && rightArrow.getVisible() == false && downArrow.getVisible() == false && leftArrow.getVisible() == false && (bow == true || boomerang == true)) {
 				initialSpace = true;
