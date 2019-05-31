@@ -54,7 +54,7 @@ public class ZeldaRunner {
 	Clip audioAlive=get("overworld.wav");
 	Clip audioDungeon=get("dungeon.wav");
 	Clip audioGameOver=get("gameover.wav");
-
+	Clip audioVictory=get("victory.wav");
 
 	public static void main(String[] args) {
 		new ZeldaRunner().start();
@@ -357,49 +357,77 @@ public class ZeldaRunner {
 	}
 
 	protected void updateGame() {
-		for (int r=0;r<drops.size();r++) {
-			//System.out.println(link.getRupee());
-			if (drops.get(r).equals("potion")&&link.getRect().intersects(new Rectangle(itemX.get(r),itemY.get(r),25,15))) {
-				drops.remove(r);
-				itemX.remove(r);
-				itemY.remove(r);
-				link.getPotion();
-				r--;
-			}
-			else if (drops.get(r).equals("hearts")&&link.getRect().intersects(new Rectangle(itemX.get(r),itemY.get(r),25,15))) {
-				drops.remove(r);
-				itemX.remove(r);
-				itemY.remove(r);
-				link.addHearts();
-				r--;
-			}
-			else if (drops.get(r).equals("rupees")&&link.getRect().intersects(new Rectangle(itemX.get(r),itemY.get(r),35,25))) {
-				drops.remove(r);
-				itemX.remove(r);
-				itemY.remove(r);
-				link.addRupee();
-				r--;
-			}
-		}
-		if (audioAlive.isRunning()==true||audioDungeon.isRunning()==true||audioGameOver.isRunning()==true) {
-			soundOn=true;
-		}else {
-			soundOn=false;
-		}
-		if (soundOn==false&&alive==true) {
-			audioAlive.loop(Clip.LOOP_CONTINUOUSLY);
-		}
+          mapAt2 = envo.getMapDecider();
+        if (mapAt != mapAt2) {
+            for (int c = 0; c < itemX.size(); c++) {
+                if (itemX != null) {
+                    itemX.remove(c);
+                }
+            }
+            for (int c = 0; c < itemY.size(); c++) {
+                if (itemY != null) {
+                    itemY.remove(c);
+                }
+            }
+            for (int c = 0; c < drops.size(); c++) {
+                if (drops != null) {
+                    drops.remove(c);
+                }
+            }
+        }
+        mapAt = envo.getMapDecider();
+        for (int r = 0; r < drops.size(); r++) {
+            //System.out.println(link.getRupee());
+            if (drops.get(r).equals("potion") && link.getRect().intersects(new Rectangle(itemX.get(r), itemY.get(r), 25, 15))) {
+                drops.remove(r);
+                itemX.remove(r);
+                itemY.remove(r);
+                link.getPotion();
+                r--;
+            } else if (drops.get(r).equals("hearts") && link.getRect().intersects(new Rectangle(itemX.get(r), itemY.get(r), 25, 15))) {
+                drops.remove(r);
+                itemX.remove(r);
+                itemY.remove(r);
+                link.addHearts();
+                r--;
+            } else if (drops.get(r).equals("rupees") && link.getRect().intersects(new Rectangle(itemX.get(r), itemY.get(r), 35, 25))) {
+                drops.remove(r);
+                itemX.remove(r);
+                itemY.remove(r);
+                link.addRupee();
+                r--;
+            }
+        }
+        if (audioAlive.isRunning() == true || audioDungeon.isRunning() == true || audioGameOver.isRunning() == true) {
+            soundOn = true;
+        } else {
+            soundOn = false;
+        }
+        if ((alive == true) && (envo.getMapDecider() == 32 || envo.getMapDecider() == 33 || envo.getMapDecider() == 34 || envo.getMapDecider() == 35 || envo.getMapDecider() == 36)) {
+            if (audioAlive.isRunning() == true) {
+                audioAlive.stop();
+        }
+        audioDungeon.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+        if ((alive==true)&&(envo.getMapDecider()!=32&&envo.getMapDecider()!=33&&envo.getMapDecider()!=34&&envo.getMapDecider()!=35&&envo.getMapDecider()!=36)) {
+        if(audioDungeon.isRunning()==true){
+            audioDungeon.stop();
+        }
+        audioAlive.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
 		if (soundOn==false&&alive==false) {
-			audioGameOver.start();
-		}
+        audioGameOver.start();
+    }
 		if (alive==false) {
-			if (audioAlive.isRunning()==true) {
-				audioAlive.stop();	
-			}
-			audioGameOver.start();
-		}
-		t++;
-	}
+        if (audioAlive.isRunning()==true) {
+            audioAlive.stop();
+        }
+        audioGameOver.start();
+    }
+    t++;
+}
 
 	private void mapKeyStrokesToActions(JPanel panel) {
 		ActionMap map = panel.getActionMap();
