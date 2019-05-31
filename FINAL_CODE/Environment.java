@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Environment {
 
-    private int mapDecider = 35;
+    private int mapDecider;
     private BufferedImage im;
     // I have to remember that I may not be able to start from the first map
     private Player p;
