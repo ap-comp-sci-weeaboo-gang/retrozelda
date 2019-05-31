@@ -230,7 +230,7 @@ public class Environment {
             }
             else if(p.getRect().x < 40) {
                 mapDecider++;
-                p.getRect().setLocation(740,p.getRect().y);
+                p.getRect().setLocation(710,p.getRect().y);
             }
             else if((p.getRect().x > 20 && p.getRect().x < 780) && p.getRect().y < 40) {
                 mapDecider+=12;
@@ -257,7 +257,7 @@ public class Environment {
         }
         if(mapDecider == 16) {
            // System.out.println("its here");
-            if(p.getRect().x > 740 && (p.getRect().y > 20 && p.getRect().y < 580)) {
+            if(p.getRect().x > 710 && (p.getRect().y > 20 && p.getRect().y < 580)) {
                // System.out.println("got there");
                 mapDecider--;
                 p.getRect().setLocation(40,p.getRect().y);
