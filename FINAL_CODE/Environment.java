@@ -530,11 +530,12 @@ public class Environment {
             }
         }
         if(mapDecider == 13) {
+            System.out.println(p.getRect().x + "" + p.getRect().y);
             if(p.getRect().x < 25 && (p.getRect().y > 20 && p.getRect().y < 550)) {
                 mapDecider--;
                 p.getRect().setLocation(740,p.getRect().y);
             }
-            if(p.getRect().y < 290 && (p.getRect().x > 275 && p.getRect().x < 340)) {
+            if((p.getRect().y > 232 && p.getRect().y < 282) && (p.getRect().x > 275 && p.getRect().x < 340)) {
                 mapDecider+=19;
                // System.out.println("here");
                 p.getRect().setLocation(378,480);
@@ -702,8 +703,7 @@ public class Environment {
 
         // For where you meet old man
         if(mapDecider == 1 ) {
-
-            if( (r> 1 && b> 1) && !(p.getRect().y > 500 && p.getRect().y < 599) && !(p.getRect().x > 330 && p.getRect().x < 443 ) ) {
+            if( (r> 1 && b> 1) ) {
                 onBoundary = true;
             }
         }
