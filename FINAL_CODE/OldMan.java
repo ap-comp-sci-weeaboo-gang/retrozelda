@@ -40,7 +40,10 @@ public class OldMan extends Character{
             g.drawString("ALONE! TAKE THIS.", 225, 185);
         }
         else {
-            g.drawString("K IS FOR INVENTORY AND J IS TO USE OBJECT. GOOD LUCK MY FRIEND!", 195, 150);
+            g.setFont(new Font("TimesRoman", Font.BOLD, 15));
+            g.drawString("K IS FOR INVENTORY AND J IS TO USE OBJECT.", 216, 130);
+            g.setFont(new Font("TimesRoman", Font.BOLD, 35));
+            g.drawString("GOOD LUCK MY FRIEND!",190,182);
         }
     }
 
