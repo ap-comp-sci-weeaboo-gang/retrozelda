@@ -48,6 +48,8 @@ public class ZeldaRunner {
 	int t = 0;
 	int ticks = 1;
 	int time;
+	int mapAt;
+	int mapAt2
 	int save;
 	int save1;
 	boolean enemyDeath=false;
