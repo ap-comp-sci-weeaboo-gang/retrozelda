@@ -106,7 +106,7 @@ public class ZeldaRunner {
 			}
 		});
 		enemy.start();
-		player = new Timer(200, new ActionListener() {		
+		player = new Timer(70, new ActionListener() {		
 			@Override		
 			public void actionPerformed(ActionEvent arg0) {		
 				if (moveable == false)		
